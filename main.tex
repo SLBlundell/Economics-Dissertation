@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+\usepackage{setspace}
+\doublespacing
+\usepackage{graphicx} % Required for inserting images
+\usepackage[margin=1.5cm]{geometry}
+
+\begin{document}
+
+\input{title_page}
+
+\tableofcontents
+
+\break
+
+\section{Introduction}
+
+\break
+
+\section{Theoretical and Empirical Review}
+
+\subsection{Theory of Herding}
+
+\subsection{Empirical Literature Review}
+
+\break
+
+\section{Empirical Research}
+
+\subsection{Econometric Theory}
+
+\subsubsection*{Data}
+
+Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the presence of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation.
+
+In addition to market data, we collect data within the same period on the Chinese government response to COVID-19 from the Oxford Covid-19 Government Response Tracker (OxCGRT), as produced by the Blavatnik School of Government at the University of Oxford. In particular, we utilise the Stringency Index within our main specification, which seeks to record the severity of ‘lockdown style’ policies that primarily restricts people’s behaviour and movement. It does so by capturing 9 indicators of such policies within the OxCGRT into an index score each day.
+
+\subsubsection*{Methodology}
+
+\subsubsection*{Extension 1 - The Effect of 'Lockdown Style' Policies on Herding}
+
+\subsubsection*{Extension 2- Time Series Analysis}
+
+Our static model is likely subject to issues causing failure of the Gauss-Markov assumptions necessary to maintain efficiency of OLS as an estimator and validity of standard errors. 
+
+Particularly, it is likely our error term suffers from serial correlation, as market dispersion measures such as CSSD and high-frequency market data in general are frequently observed to exhibit correlation over time cite. As such it is necessary we test for correlations between our model’s residuals over time in order to determine if the true disturbances are auto-correlated. Observing the partial auto-correlation function (PACF) we can see that auto-correlations of $CSSD$ are present for values of $t<10$, and as such it is appropriate to include lags until this point as to control for this residual correlation. The PACF partials out residual correlations of intervening lags between time periods, as such allowing us to observe the level of partial auto-correlation at each time period:
+
+$$
+PACF=\frac{cov(CSSD_t,CSSD_{t-j}|CSSD_{t-k}\in{t<k<j})}{\sqrt{var(CSSD_t|CSSD_{t-k}\in{t<k<j})var(CSSD_{t-j}|CSSD_{t-k}\in{t<k<j})}}
+$$
+
+These significant partial-correlations reject the null that our underlying process can be represented by a moving-average process of MA(0), and instead indicates that variation $CSSD_t$ is comprised of $CSSD$ values up to 10 days prior. We also investigate the possibility of our model’s estimated auto-regressive component actually being a unit root process, or a random-walk:
+
+$$
+CSSD_t=\rho{CSSD_{t-1}}+...+\epsilon_t
+$$
+
+with $\rho=1$. Such a highly persistent process fails the requirement of weak dependence and we will not be able to utilise the Ergodic Theorem nor the Central Limit Theorem necessary for coefficient estimation. As such it is prudent to run an Augmented Dickey-Fuller test, fitting the model above with an intercept. The test is augmented with lags of $\Delta{CSSD_t}$ in order to control for serially-correlated errors within the test’s model. Under the null the parameter for $CSSD_{t-1}$ is equal to 0, equivalent to $\rho=1$ above. As outlined by cite, statistical significance of coefficients from this regression can be determined using usual t tests and values.
+
+We confirm the results of the PACF and Augmented Dickey-Fuller test by running a Breusch-Godfrey test. This is necessary as, given the test utilises the Lagrange Multiplier (LM) statistic, we can conduct a joint test of higher auto-correlation up to a specified level of lags. The test, derived from constrained optimisation, is equivalent to running an OLS regression on a ‘restricted’ version of our model, or our model specification excluding any auto-correlated errors, to obtain predicted residuals $\hat{\epsilon}_t$ for all $t\in[0,n]$. $\hat{\epsilon}_t$ is then regressed upon the remaining predicted residuals and independent variables. It is worth noting that this test is beneficial above the Augmented Dickey-Fuller as the presence of our independent variables within the auxiliary regression means the strict-exogeneity assumption is no longer needed. The LM statistic is constructed:
+
+$$
+LM=(n-p)R^2_{\hat{\epsilon}} \sim\chi^2_p
+$$
+
+where $n$ is the number of observations, $p$ is the number of auto-correlations and $R^2_{\hat{\epsilon}}$ the R-squared of the auxiliary regression. This statistic, following a Chi-Squared distribution, tests the joint null that the coefficient of each level of auto-correlation is equal to 0.
+
+In addition to auto-correlation, heteroskedastic errors within our model pose a threat to the efficiency of OLS as an estimator in addition to the validity of our usual standard errors.
+
+To correct for these factors within our standard errors and ensure validity of inference tests, we chose to utilise the Newey-West (1987) estimator for our regressions in order to compute heteroskedastic and autocorrelative consistent (HAC) errors.
+
+The Newey-West estimator extends the White (1980) formulation, which builds upon the standard OLS variance estimator and produces heteroskedastic consistent errors by estimating the variance at each value of $t$ within our sample via $\hat{\epsilon}^2_tx_tx'_t$. As such, the White estimator for can be expressed as $Var(\hat{\beta})=(X'X)^{-1}X'\hat{\Omega_0}X(X'X)^{-1}$, with:
+
+$$
+X'\hat{\Omega_0}X=\frac{1}{T}\sum_{t=1}^T\hat{\epsilon_t}^2x_t'x_t
+$$
+
+where $X$ is a $t\times1$ matrix of the vectors $x_t$ containing our independent variables at $t$, $\hat{\beta}$ is a matrix of the model’s predicted coefficients, $\hat{\epsilon_t}$ is the predicted residuals at $t$ and $\Omega_0$ is the variance-covariance matrix for our residuals under no serial correlation. When introducing the possibility of auto-correlation, the White formulation is no longer valid as the covariance values within the variance-covariance matrix can no longer assumed to be 0. Likewise, we cannot extend this White formulation to be $X'\hat{\Omega}X$, as given $\hat{\Omega}=\hat{\epsilon}\hat{\epsilon}'$, this estimator results in a $\hat{Var(\hat{\beta})}=0$.
+
+Newey-West (1987) proposes a solution to this applying a weighting of $w_l=1-\frac{l}{L+1}$ to each auto-correlation within the variance-covariance matrix according to their level of auto-correlation, $L$. As such, the Newey-West variance estimator is expressed by
+
+$$
+Var_{nw}(\hat{\beta})=(X'X)^{-1}X'\hat{\Omega}_{nw}X(X'X)^{-1}=X'\hat{\Omega}_0X+\frac{1}{T}\sum^L_{l=1}\sum^T_{t=l+1}w_l\epsilon_t\epsilon_{t-l}(x_tx'_{t-l}+x_{t-l}x'_t)
+$$
+
+Auto-correlations further away from $t$ are weighted less within our estimator, which converge to 0 under the assumption of weak-dependence, maintaining efficiency of the estimator by preventing too many estimations of coefficients.
+
+In order to calculate how many levels of auto-correlations we take into account, i.e. our truncation parameter $L$, we observe both common practice outlined in Greene 2008, dictating $L\approx{T^{1/4}}$, and the results of our PACF.
+
+\subsection{Empirical Analysis and Results}
+
+
+
+\break
+
+\section{Conclusion}
+
+\end{document}
