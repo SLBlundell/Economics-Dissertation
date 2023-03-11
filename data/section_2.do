@@ -2,8 +2,6 @@ clear all
 capture log close
 log using "section_2.log", replace
 
-cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\Small Group Sessions\Section 2\Data"
-
 import delimited "spec_1_stringency_CSSD_CSAD_updated_csi"
 
 sort date
