@@ -1,6 +1,8 @@
 clear all
 capture log close
-log using "section_2.log", replace
+log using "section_3-2.log", replace
+
+cd data
 
 import delimited "spec_1_stringency_CSSD_CSAD_updated_csi"
 

@@ -1,9 +1,13 @@
 -----------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data\secti
-> on_2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-
+> 2.log
   log type:  text
- opened on:  11 Mar 2023, 20:38:42
+ opened on:  11 Mar 2023, 22:20:51
+
+. 
+. cd data
+C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data
 
 . 
 . import delimited "spec_1_stringency_CSSD_CSAD_updated_csi"
@@ -302,8 +306,8 @@ D5Upper#c.r_m_sqr |
 . 
 . log close
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data\secti
-> on_2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-
+> 2.log
   log type:  text
- closed on:  11 Mar 2023, 20:38:45
+ closed on:  11 Mar 2023, 22:20:54
 -----------------------------------------------------------------------------------------------------------------------------
