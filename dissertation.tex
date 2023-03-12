@@ -16,7 +16,7 @@
 
 \begin{document}
 
-\input{title_page}
+\input{TeX_files/title_page}
 
 \tableofcontents
 
@@ -54,7 +54,7 @@ In addition to market data, we collect data within the same period on the Chines
 
 \subsubsection*{Methodology}
 
-We adopt the approach proposed by CH (1995), utilising the relationship between dispersion and market returns as our measure of herding. However, we have chosen to utilise CCK (2000)’s alternative specification, namely that our specification’s measure of dispersion is the cross-sectional absolute deviation (CSAD), expressed as
+We adopt the approach proposed by \citet{ch} (CH), utilising the relationship between dispersion and market returns as our measure of herding. However, we have chosen to utilise \citet{cck}'s (CCK) alternative specification, namely that our specification’s measure of dispersion is the cross-sectional absolute deviation (CSAD), expressed as
 
 $$
 CSAD_t=\frac{1}{N}\sum^N_{i=1}|R_{i,t}-R_{m,t}|
@@ -68,9 +68,9 @@ $$
 
 where $\gamma$ denote the model’s coefficients and $\epsilon_t$ the error term at time $t$. This model’s rationale is as follows: according to rational asset-pricing models, as individual assets have varying degrees of sensitivity to overall market return, the relationship between dispersions and market returns are linear and increasing. However, if herding is present within the market CCK suggests that this relationship will no longer hold, as investors’ conformity will result in a non-linear or even decreasing relationship between the two variables. As such, if herding is present we would expect a negative $\gamma_2$, indicating a non-linear relationship.
 
-$CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. Whilst observers such as Yao et al. (2014) state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results.
+$CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. Whilst observers such as \citet{yao} state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results.
 
-Following Yao et al (2014) we utilise logarithmic daily returns within our calculations of $CSAD_t$ and $R_{m,t}$
+Following Yao et al. we utilise logarithmic daily returns within our calculations of $CSAD_t$ and $R_{m,t}$
 
 $$
 R_{i,t}=100\times(\ln{P_{i,t}}-\ln{P_{i,t-1}})
@@ -84,7 +84,7 @@ where $P_{i,t}$ is the closing price of equity $i$ at time $t$. This is in order
 
 Our static model is likely subject to issues causing failure of the Gauss-Markov assumptions necessary to maintain efficiency of OLS as an estimator and validity of standard errors. 
 
-Particularly, it is likely our error term suffers from serial correlation, as market dispersion measures such as CSSD and high-frequency market data in general are frequently observed to exhibit correlation over time cite. As such it is necessary we test for correlations between our model’s residuals over time in order to determine if the true disturbances are auto-correlated. Observing the partial auto-correlation function (PACF) we can see that auto-correlations of $CSSD$ are present for values of $t<10$, and as such it is appropriate to include lags until this point as to control for this residual correlation. The PACF partials out residual correlations of intervening lags between time periods, as such allowing us to observe the level of partial auto-correlation at each time period:
+Particularly, it is likely our error term suffers from serial correlation, as market dispersion measures such as CSSD and high-frequency market data in general are frequently observed to exhibit correlation over time. As such it is necessary we test for correlations between our model’s residuals over time in order to determine if the true disturbances are auto-correlated. Observing the partial auto-correlation function (PACF) we can see that auto-correlations of $CSSD$ are present for values of $t<10$, and as such it is appropriate to include lags until this point as to control for this residual correlation. The PACF partials out residual correlations of intervening lags between time periods, as such allowing us to observe the level of partial auto-correlation at each time period:
 
 $$
 PACF=\frac{cov(CSSD_t,CSSD_{t-j}|CSSD_{t-k}\in{t<k<j})}{\sqrt{var(CSSD_t|CSSD_{t-k}\in{t<k<j})var(CSSD_{t-j}|CSSD_{t-k}\in{t<k<j})}}
@@ -110,7 +110,7 @@ In addition to auto-correlation, heteroskedastic errors within our model pose a 
 
 To correct for these factors within our standard errors and ensure validity of inference tests, we chose to utilise the \citet{newey} estimator for our regressions in order to compute heteroskedastic and autocorrelative consistent (HAC) errors.
 
-The Newey-West estimator extends the \citet{white} formulation, which builds upon the standard OLS variance estimator and produces heteroskedastic consistent errors by estimating the variance at each value of $t$ within our sample via $\hat{\epsilon}^2_tx_tx'_t$. As such, the White estimator for can be expressed as $Var(\hat{\beta})=(X'X)^{-1}X'\hat{\Omega_0}X(X'X)^{-1}$, with:
+The Newey-West estimator extends the \citet{white} formulation, which builds upon the standard OLS variance estimator and produces heteroskedastic consistent errors by estimating the variance at each value of $t$ within our sample via $\hat{\epsilon}^2_tx_tx'_t$. The White estimator for can be expressed as $Var(\hat{\beta})=(X'X)^{-1}X'\hat{\Omega_0}X(X'X)^{-1}$, with:
 
 $$
 X'\hat{\Omega_0}X=\frac{1}{T}\sum_{t=1}^T\hat{\epsilon_t}^2x_t'x_t
@@ -138,7 +138,13 @@ In order to calculate how many levels of auto-correlations we take into account,
 
 \break
 
+\section{Appendix}
+
 \bibliographystyle{authordate1}
-\bibliography{bibliography}
+\bibliography{TeX_files/bibliography}
+
+\begin{markdown}
+
+\end{markdown}
 
 \end{document}
