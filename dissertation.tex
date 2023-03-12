@@ -37,9 +37,39 @@
 
 Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the presence of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation.
 
-In addition to market data, we collect data within the same period on the Chinese government response to COVID-19 from the Oxford Covid-19 Government Response Tracker (OxCGRT), as produced by the Blavatnik School of Government at the University of Oxford \citep{OxCGRT}. In particular, we utilise the Stringency Index within our main specification, which seeks to record the severity of ‘lockdown style’ policies that primarily restricts people’s behaviour and movement. It does so by capturing 9 indicators of such policies within the OxCGRT into an index score each day.
+\begin{center}
+    
+    \includegraphics[scale=0.3]{graphics/stringency_vaccination_line.png}
+
+\end{center}
+
+In addition to market data, we collect data within the same period on the Chinese government response to COVID-19 from the Oxford Covid-19 Government Response Tracker (OxCGRT), as produced by the Blavatnik School of Government at the University of Oxford \citep{OxCGRT}. In particular, we utilise the Stringency Index within our main specification, which seeks to record the severity of ‘lockdown style’ policies that primarily restricts people’s behaviour and movement.
 
 \subsubsection*{Methodology}
+
+We adopt the approach proposed by CH (1995), utilising the relationship between dispersion and market returns as our measure of herding. However, we have chosen to utilise CCK (2000)’s alternative specification, namely that our specification’s measure of dispersion is the cross-sectional absolute deviation (CSAD), expressed as
+
+$$
+CSAD_t=\frac{1}{N}\sum^N_{i=1}|R_{i,t}-R_{m,t}|
+$$
+
+where $N$ is the number of equities within our portfolio (being the CSI 300 as of 03/01/2020) $R_{i,t}$ is the observed stock return of equity $i$ at time $t$ and $R_{m,t}$ is the equally-weighted cross-sectional average of the $N$ returns within the portfolio. Following CCK, the foundation of our specification is
+
+$$
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\epsilon_t
+$$
+
+where $\gamma$ denote the model’s coefficients and $\epsilon_t$ the error term at time $t$. This model’s rationale is as follows: according to rational asset-pricing models, as individual assets have varying degrees of sensitivity to overall market return, the relationship between dispersions and market returns are linear and increasing. However, if herding is present within the market CCK suggests that this relationship will no longer hold, as investors’ conformity will result in a non-linear or even decreasing relationship between the two variables. As such, if herding is present we would expect a negative $\gamma_2$, indicating a non-linear relationship.
+
+$CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. Whilst observers such as Yao et al. (2014) state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results.
+
+Following Yao et al (2014) we utilise logarithmic daily returns within our calculations of $CSAD_t$ and $R_{m,t}$
+
+$$
+R_{i,t}=100\times(\ln{P_{i,t}}-\ln{P_{i,t-1}})
+$$
+
+where $P_{i,t}$ is the closing price of equity $i$ at time $t$. This is in order to preserve time-additivity and log-normality, in addition to aiding interpretation of our model’s predicted coefficients.
 
 \subsubsection*{Extension 1 - The Effect of 'Lockdown Style' Policies on Herding}
 
