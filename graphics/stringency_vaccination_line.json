@@ -1,0 +1,46 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 400,
+  "data": {
+    "url": "https://raw.githubusercontent.com/SLBlundell/Economics-Dissertation/main/data/stringency_data_expanded.csv"
+  },
+  "encoding": {
+    "x": {"field": "Date", "timeUnit": "yearmonthdate", "title": "Timepoint"}
+  },
+  "layer": [
+    {
+      "mark": {"type": "line", "color": "#d57e7e", "clip": true},
+      "encoding": {
+        "y": {
+          "field": "StringencyIndex_WeightedAverage",
+          "type": "quantitative",
+          "title": "Containment Policy Stringency",
+          "axis": {
+            "titleColor": "#d57e7e",
+            "titleFontWeight": "normal",
+            "titleFontSize": 14
+          }
+        }
+      }
+    },
+    {
+      "mark": {"stroke": "#7eaad5", "type": "line", "interpolate": "monotone"},
+      "encoding": {
+        "y": {
+          "field": "PopulationVaccinated",
+          "type": "quantitative",
+          "axis": {
+            "title": "Percentage of Population Vaccinated",
+            "titleColor": "#7eaad5",
+            "format": ".0f",
+            "titleFontWeight": "normal",
+            "titleFontSize": 14
+          }
+        }
+      }
+    }
+  ],
+  "resolve": {"scale": {"y": "independent"}},
+  "config": {}
+}
