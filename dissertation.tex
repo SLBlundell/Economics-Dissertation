@@ -5,13 +5,18 @@
 \doublespacing
 \usepackage{graphicx} % Required for inserting images
 \usepackage[margin=1.5cm]{geometry}
-\usepackage{natbib}
-\usepackage{hyperref}
 
+\usepackage{natbib}
+
+\usepackage[hybrid,fencedCode]{markdown}
+\usepackage{minted}
+
+\usepackage{hyperref}
 \hypersetup{
   colorlinks=true, 
   linkcolor=black,
-  citecolor=blue
+  citecolor=blue,
+  urlcolor=blue
 }
 
 \begin{document}
@@ -142,9 +147,10 @@ In order to calculate how many levels of auto-correlations we take into account,
 
 \bibliographystyle{authordate1}
 \bibliography{TeX_files/bibliography}
+\addcontentsline{toc}{subsection}{5.0 \hspace{0.25cm} References}
 
-\begin{markdown}
+\break
 
-\end{markdown}
+\markdownInput{TeX_files/AED_codebook.md}
 
 \end{document}
