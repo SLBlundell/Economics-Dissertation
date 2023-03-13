@@ -20,7 +20,7 @@ I am proficient in Python, specialising in data analysis and machine learning. I
 Finally, I have recently developed a *slight* obsession with basketball, and the intersection of the sport with data. I produced a large project as part of my degree on the role of salary in the NBA, [which can be found here](https://slblundell.github.io/project.html).
 
 
-## How to Read
+## 📖 How to Read
 
 - **Dissertation** - Import `dissertation.tex` into a TeX editor, such as [Overleaf](www.overleaf.com), either by downloading and importing the file or copy-pasting the contents into the editor.
 
