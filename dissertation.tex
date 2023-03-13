@@ -85,6 +85,39 @@ where $P_{i,t}$ is the closing price of equity $i$ at time $t$. This is in order
 
 \subsubsection*{Extension 1 - The Effect of 'Lockdown Style' Policies on Herding}
 
+In order to distil China’s containment policy response over time, we utilise OxCGRT’s ‘Stringency Index’. This index calculates a daily average of 9 ‘lockdown style’ policy indicators the database records: closing of schools and universities, closing of workplaces, cancelling of public events, limits on gatherings, closing of public transport, shelter-in-place orders, restrictions on internal city/region movements, restrictions on international travel and presence of COVID-19 public information campaigns. Importantly to China, policies that only apply to a particular region rather than nationally are weighted less within the final index. We chose a variation of this Stringency Index that is split based upon how these policies depend on vaccination status, with weightings applied according to the vaccination rate of the population:
+
+$$
+STRINGENCY_t=[(stringency_{v,t}*W_{v,t})+(stringency_{nv,t}*W_{nv,t}]/100
+$$
+
+
+where $STRINGENCY_t$ is our specification’s measure, $stringency_{v,t}$ is the index score for policies applying to vaccinated individuals at $t$, $stringency_{nv,t}$ the index score for non-vaccinated based policies, and $W_{v,t}$ and $W_{nv,t}$ are the percentage of the population vaccinated and not-vaccinated respectively. We chose this to more accurately reflect how containment policies apply to China’s population at a given time.
+
+As highlighted by \citet{aknin}, many previous studies utilising ‘lockdown style’ policy regressors fail to control for confounding variables such as local infection and mortality rate. Not including these variables within our regression could result in an understatement within our $STRINGENCY_t$ coefficient given previous studies have suggested the pandemic results in lower herding behaviour within China (Wu et al., 2020). As such, our Model 1 takes the following form:
+
+\begin{equation}\label{model-1}
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3STRINGENCY_t+\Gamma{A}+\epsilon_t
+\end{equation}
+
+where $A$ is a matrix of controls with the vector $\Gamma$ of coefficients. Formally, within our controls we include a 7 day moving average of the number of deaths and number of cases per 100,000 population, and the daily single-vaccination rate.
+
+This approach has limited power to capture the possible non-linear relationship between containment policies and mental health in herding. It may be that cognitive stress strong enough to effect herding only occurs during demonstrably limiting lockdown policies. We have included multiple alterations to Model 1 that seek to capture this non-linear relationship. Firstly, we have replaced $STRINGENCY_t$ with dummy indicators $S^{j\%}$, taking the value 1 if the Stringency Index value falls within the upper $j$th percentile of the index’s distribution. As such, our Model 2 is expressed as
+
+\begin{equation}\label{model-2}
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3R_{m,t}^2*S^{j\%}+\Gamma{A}+\epsilon_t.
+\end{equation}
+
+We run regressions with an $S^{j\%}$ for the upper 25th, 10th and 5th percentile. This addition is constructed as an interaction term to capture effect severe lockdowns have on the relationship between $R^2_{m,t}$ and $CSAD_t$.
+
+Secondly, following \citet{aknin} we have also we evaluated the possible cumulative effect of lockdown-style policies by including the variable $D_t$ within Model 3, taking on the number of days the population were under high-stringency policies:
+
+\begin{equation}\label{model-3}
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3STRINGENCY_t+\gamma_4DAYS_t+\Gamma{A}+\epsilon_t
+\end{equation}
+
+where $DAYS_t$ is the cumulative number of days $STRINGENCY_t>70$, with the indicator resetting once the index drops below 70. We chose 70 as our threshold for high-stringency once again following Aknin.
+
 \subsubsection*{Extension 2 - Time Series Analysis}
 
 Our static model is likely subject to issues causing failure of the Gauss-Markov assumptions necessary to maintain efficiency of OLS as an estimator and validity of standard errors. 
@@ -121,12 +154,12 @@ $$
 X'\hat{\Omega_0}X=\frac{1}{T}\sum_{t=1}^T\hat{\epsilon_t}^2x_t'x_t
 $$
 
-where $X$ is a $t\times1$ matrix of the vectors $x_t$ containing our independent variables at $t$, $\hat{\beta}$ is a matrix of the model’s predicted coefficients, $\hat{\epsilon_t}$ is the predicted residuals at $t$ and $\Omega_0$ is the variance-covariance matrix for our residuals under no serial correlation. When introducing the possibility of auto-correlation, the White formulation is no longer valid as the covariance values within the variance-covariance matrix can no longer assumed to be 0. Likewise, we cannot extend this White formulation to be $X'\hat{\Omega}X$, as given $\hat{\Omega}=\hat{\epsilon}\hat{\epsilon}'$, this estimator results in a $\hat{Var(\hat{\beta})}=0$.
+where $X$ is a $t\times1$ matrix of the vectors $x_t$ containing our independent variables at $t$, $\hat{\beta}$ is a matrix of the model’s predicted coefficients, $\hat{\epsilon_t}$ is the predicted residuals at $t$ and $\Omega_0$ is the variance-covariance matrix for our residuals under no serial correlation. When introducing the possibility of auto-correlation, the White formulation is no longer valid as the covariance values within the variance-covariance matrix can no longer assumed to be 0. Likewise, we cannot extend this White formulation to be $X'\hat{\Omega}X$, as given $\hat{\Omega}=\hat{\epsilon}\hat{\epsilon}'$, this estimator results in a $\widehat{Var(\hat{\beta})}=0$.
 
 The Newey-West estimator proposes a solution to this applying a weighting of $w_l=1-\frac{l}{L+1}$ to each auto-correlation within the variance-covariance matrix according to their level of auto-correlation, $L$. As such, the Newey-West variance estimator is expressed by
 
 $$
-Var_{nw}(\hat{\beta})=(X'X)^{-1}X'\hat{\Omega}_{nw}X(X'X)^{-1}=X'\hat{\Omega}_0X+\frac{1}{T}\sum^L_{l=1}\sum^T_{t=l+1}w_l\epsilon_t\epsilon_{t-l}(x_tx'_{t-l}+x_{t-l}x'_t)
+\widehat{Var_{nw}(\hat{\beta})}=(X'X)^{-1}X'\hat{\Omega}_{nw}X(X'X)^{-1}=X'\hat{\Omega}_0X+\frac{1}{T}\sum^L_{l=1}\sum^T_{t=l+1}w_l\epsilon_t\epsilon_{t-l}(x_tx'_{t-l}+x_{t-l}x'_t)
 $$
 
 Auto-correlations further away from $t$ are weighted less within our estimator, which converge to 0 under the assumption of weak-dependence, maintaining efficiency of the estimator by preventing too many estimations of coefficients.
@@ -145,12 +178,16 @@ In order to calculate how many levels of auto-correlations we take into account,
 
 \section{Appendix}
 
-\bibliographystyle{authordate1}
-\bibliography{TeX_files/bibliography}
-\addcontentsline{toc}{subsection}{5.0 \hspace{0.25cm} References}
+\begin{singlespace}
 
-\break
-
-\markdownInput{TeX_files/AED_codebook.md}
+    \bibliographystyle{authordate1}
+    \bibliography{TeX_files/bibliography}
+    \addcontentsline{toc}{subsection}{5.0 \hspace{0.25cm} References}
+    
+    \break
+    
+    \markdownInput{TeX_files/AED_codebook.md}
+    
+\end{singlespace}
 
 \end{document}
