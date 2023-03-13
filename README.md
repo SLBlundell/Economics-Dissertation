@@ -3,15 +3,15 @@
 
 This repository contains the files and data associated with my Applied Economics Dissertation, which I am producing as part of my BSc Economics degree at the University of Bristol.
 
-My research focuses on 'herding' within financial markets - the theory that investors will forego their private information in favour of following the public decisions of other investors. Academics and observers alike have expressed concerns such behaviour could lead to excess volatility and asset bubbles that threaten to destabalise fincancial markets. 
+My research focuses on 'herding' within financial markets - the theory that investors will forego their private information in favour of following the public decisions of other investors. Academics and observers alike have expressed concerns such behaviour could lead to excess volatility and asset bubbles that threaten to destabilise financial markets. 
 
-Specifically, this dissertation seeks determine whether the additional cognitive stress investors were subject to stemming from 'Lockdown Style' policies within China induced additional herding within equity markets.
+Specifically, this dissertation seeks to determine whether the additional cognitive stress investors were subject to stemming from 'Lockdown Style' policies within China induced additional herding within equity markets.
 
 
 ## 🚀 About Me
 I am a final year Economics undergrad at the University of Bristol. I'm incredibly interested in data analysis, specifically how this can relate to microeconomic policy and behavioural economics.
 
-I have worked as a Research Intern for a Chinese foreign policy research project with the university, having written reports to inform policy decisions in Parliment. I also participated in a Spring Internship within HSBC's Global Banking and Markets divisions in London.
+I have worked as a Research Intern for a Chinese foreign policy research project with the university, having written reports to inform policy decisions in Parliament. I also participated in a Spring Internship within HSBC's Global Banking and Markets divisions in London.
 
 I joined a year exchange programme at the Chinese University of Hong Kong during the third year of my degree, taking classes in everything from Chinese financial history and Mandarin to programming and law.
 
