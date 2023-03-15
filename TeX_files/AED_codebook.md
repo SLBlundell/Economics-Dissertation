@@ -100,7 +100,7 @@ Here we gather our Chinese equity market data, utilizing the China-based communi
 The `daily_log_return` column of the resultant dataset represents logarithmic returns within our variables, with $t$ being the `trade_date` and $i$ the `ts_code`.
 
 **BE WARNED**: 
-Due to the community nature of the TuShare API, only 6000 values can be requested at once for most users. As such, the method below splits the data requests into 20 day batches, which results in a considerably long runtime for the whole 3-year period.
+Due to the community nature of the TuShare API, only 6000 values can be requested at once for most users. As such, the method below splits the data requests into 20-day batches, which results in a considerably long runtime for the whole 3-year period.
 
 **Note**: `config.api_key` must be replaced with your own API key, which can be obtained from TuShare by signing up to the platform using the link provided above.
 
