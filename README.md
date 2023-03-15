@@ -15,7 +15,7 @@ I have worked as a Research Intern for a Chinese foreign policy research project
 
 I joined a year exchange programme at the Chinese University of Hong Kong during the third year of my degree, taking classes in everything from Chinese financial history and Mandarin to programming and law.
 
-I am proficient in Python, specialising in data analysis and machine learning. I also have experience working in Stata, in addition to HTML and CSS. [You can view a portfolio of Economic data analysis conducted during my degree here](https://slblundell.github.io/).
+I am proficient in Python, specialising in data analysis and machine learning. I also have experience working in Stata, in addition to HTML, CSS and JavaScript. [You can view a portfolio of Economic data analysis conducted during my degree here](https://slblundell.github.io/).
 
 Finally, I have recently developed a *slight* obsession with basketball, and the intersection of the sport with data. I produced a large project as part of my degree on the role of salary in the NBA, [which can be found here](https://slblundell.github.io/project.html).
 
