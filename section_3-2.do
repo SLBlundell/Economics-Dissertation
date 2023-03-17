@@ -4,7 +4,7 @@ log using "section_3-2.log", replace
 
 cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data"
 
-import delimited "spec_1_stringency_CSSD_CSAD_updated_csi"
+import delimited "spec_1.csv"
 
 sort date
 gen time=_n
@@ -32,26 +32,29 @@ replace D5Upper = 1 if stringency >= `PL95'
 
 gen r_m_sqr=r_m^2
 gen r_m_abs=abs(r_m)
+gen stringency=stringency/100
 
 tsset time
 
 estpost sum r_m - r_m_abs
 
-quietly reg csad r_m_abs r_m_sqr stringency
+quietly reg csad r_m_abs r_m_sqr stringency populationvaccinated covid_deaths
 estat bgodfrey, lags(1 2:30)
 
 dfuller csad
 
-newey cssd r_m_abs r_m_sqr stringency, lag(5)
+newey cssd r_m_abs r_m_sqr stringency populationvaccinated covid_deaths, lag(5)
 
-newey cssd r_m_abs c.r_m_sqr##D25Upper, lag(5)
-newey cssd r_m_abs c.r_m_sqr##D10Upper, lag(5)
-newey cssd r_m_abs c.r_m_sqr##D5Upper, lag(5)
+newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated covid_deaths, lag(5)
+newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated covid_deaths, lag(5)
+newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated covid_deaths, lag(5)
 
-newey csad r_m_abs r_m_sqr stringency, lag(5)
+newey csad r_m_abs r_m_sqr stringency populationvaccinated covid_deaths, lag(5)
 
-newey csad r_m_abs c.r_m_sqr##D25Upper, lag(5)
-newey csad r_m_abs c.r_m_sqr##D10Upper, lag(5)
-newey csad r_m_abs c.r_m_sqr##D5Upper, lag(5)
+newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated covid_deaths, lag(5)
+newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated covid_deaths, lag(5)
+newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated covid_deaths, lag(5)
+
+newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated covid_deaths, lag(5)
 
 log close
