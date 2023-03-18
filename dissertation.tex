@@ -19,6 +19,10 @@
   urlcolor=blue
 }
 
+\usepackage{titlesec}
+\titleformat{\subsubsection}[runin]{\normalsize\bfseries}{\thesubsection}{5pt}{}
+
+
 \begin{document}
 
 \input{TeX_files/title_page}
@@ -39,25 +43,89 @@
 
 \subsection{Empirical Literature Review}
 
+In the 30 years following the seminal article \citet{scharfstein}, 329 articles have been published on the topic of herding in financial markets with 15,900 citations \citep{choijil}. Since the Great Financial Crisis, there has been a significant surge in the number of papers published on the topic, with the majority of them appearing in the last seven years. In fact, the number of articles published and the corresponding citations during this period have surpassed those of the previous 24 years.
+
+This large body of empirical literature covers numerous models of herding, markets, events and herding consequences. However, there still exists significant gaps within this body, most notably to the purposes of this paper including empirical evidence of irrational-based models of herding. The following literature review seeks to provide insights into the empirical work relevant to this paper’s aims, which will inform our subsequent econometric approach and interpretation of empirical results.
+
+\subsubsection*{[Measures of Herding]} 
+
+During his herding in financial markets literature review, \citet{spyrou} splits empirical approaches to measuring herding into two categories - approaches that rely on micro-data or proprietary data, and approaches that rely on aggregate pricing or market data.
+
+The latter approach was pioneered by \citet{ch} (herein referred to as CH), who based their methodology on the observation that if herding is present within a market, the dispersion of returns from the average market return is expected to decrease. This is due to the fact that investors who follow each other’s investment choices will drive individual assets returns towards the mean. CH defines dispersions as the cross-sectional standard deviation of returns:
+
+$$
+CSSD=\sqrt{\frac{\sum^n_{i=1}{(r_i-\bar{r})^2}}{n-1}}
+$$
+
+where $r_i$ is the individual stock return of stock $i$ and $\bar{r}$ is the cross-sectional average of the $n$ returns within the market portfolio. CH as such suggests that during periods of ‘market stress’, defined as abnormally high or low aggregate market returns, we expect investors are more likely to herd, and thus dispersions will decrease in herding during these periods. They define a regression specification to capture this relationship, 
+
+$$
+CSSD_t=\alpha+\beta_1D^L_t+\beta_2D^U_t+\epsilon_t
+$$
+
+where $D^L_t$ and $D^U_t$ are binary indicators capturing when market returns fall within the lower and upper tails of the distribution, respectively. Within CH’s regressions, they set these tails both at the 5\% and 1\% criteria arbitrarily. Crucially to the explanatory power of this method, this prediction is is complete contradiction to that of rational asset-pricing models. These models dictate that dispersions will increase as market returns reach the tails of the distribution due to individual assets varying in degrees of sensitivity to overall market returns. As such, significant negative values of $\beta_1$ and $\beta_2$ contradict rational asset-pricing models and indicate herding is present within a market.
+
+CH carries out an analysis of herding within ordinary common shares traded in US equity markets, breaking these shares into industry groups to determine the presence of industry-based herding. CH estimates a significantly positive $\beta_1$ and $\beta_2$ for all industries and overall, indicating herding is not present within the market. This result is consistent when using both daily and monthly data, failing to confirm CH’s hypothesis that the use of daily data may restrict the type of herding that can be observed\footnote{\citet{richards} suggests that the highest-frequency data available should always be used when studying idiosyncratic variance.}.
+
+Building upon this approach, \citet{cck} (herein CCK) asserts that CH’s methodology is too restrictive, consequently constructing their own methodology. CCK argued that not only do rational asset-pricing models predict that the relationship between dispersion and returns are positive, but necessarily linear. CCK demonstrates this by constructing the expected cross-sectional deviation of stock returns $(ECSAD_t)$, based on conditional CAPM (Black, 1972) , showing that the dispersion measure’s second-order derivative in expected market returns, $E_t(R_{m,t})$, is equal to 0:
+
+$$
+ECSAD_t=\frac{1}{N}\sum^N_{i=1}|\beta_i-\beta_m|E_t(R_m-\gamma_0),
+$$
+
+where $\beta_i$ is the systematic risk measure of security $i$ within the market portfolio, $m$, of size $N$, $\gamma_0$ is the return of the zero-beta (risk-free) portfolio and $E_t$ is the expectation operator at time $t$. Whilst this relationship holds in theory, given the presence of expectation-based variables such as $E_t(R_{m,t})$, we cannot observe nor measure this mechanism in reality, as such. To combat this issue, CCK constructs the measure cross-sectional absolute dispersion,
+
+$$
+CSAD_t=\frac{1}{N}\sum^N_{i=1}|R_{i,t}-R_{m,t}|
+$$
+
+which proxies for the unobservable $E_t(R_{m,t})$, as the measure of dispersion the paper utilises empirically. This established positive and linear relationship between $E_t(R_{m,t})$ and $ECSAD_t$ is exploited to construct specifications that capture a continuous measure of herding, rather than relying on arbitrary binary-indicators as per CH:
+
+$$
+CSAD_t=\alpha+\gamma_1^{UP}|R_{m,t}^{UP}|+\gamma_2^{UP}(R_{m,t}^{UP})^2+\epsilon_t, \quad CSAD_t=\alpha+\gamma_1^{DOWN}|R_{m,t}^{DOWN}|+\gamma_2^{DOWN}(R_{m,t}^{DOWN})^2+\epsilon_t,
+$$
+
+where $|R_{m,t}^{UP}|$ and $|R_{m,t}^{DOWN}|$ are the absolute value of the equally-weighted market portfolio in period $t$ when the market is up and down, respectively. This split of up and down markets allows for asymmetric herding in market condition to be captured. The inclusion of a squared returns term, crucially, allows observation of a non-linear relationship between dispersion and market returns - as captured in a negative and statistically significant $\gamma_2$. Importantly, CH’s specification requires a significantly greater magnitude of non-linearity in return dispersion than is suggested by Black’s CAPM, and that is captured within CCK’s specification.
+
+CCK employs both of these specifications and a dummy-distribution approach akin to CH for US, Hong-Kong, Japanese, South Korean and Taiwanese equity markets for samples periods varying from 1963 to 1997. The dummy regression results corroborate CH’s findings for the US, and all models fail to find results consistent with herding for the US, Hong Kong and Japan. CCK suggests that the insignificant $\gamma_2$ in these samples confirm the validity of the linear dispersion-returns relationship. 
+
+However, the two developing markets within the sample, South Korea and Taiwan, generate significantly negative $\gamma_2^{UP}$ and $\gamma_2^{DOWN}$, suggesting a breakdown of this linear relationship and indicating herding is present in these markets. Specifically, CCK observes a $\gamma_2$ ranging between $-4.03$ and $-5.63$ for these two countries. Interestingly, the adjusted $R^2$ for these two samples are, on average, significantly higher than those for developed markets. This suggests that unsystematic risk has a greater impact on the variation in dispersion within the model than systematic risk, which supports the validity of the herding relationship that CH and CCK base their methodology upon.
+
+The approach put forth by these papers are not free from criticism, however. \citet{hirshleifer_review} comment that CH’s assertion that herding will be more likely to materialise during periods of ‘market stress’ is not an obvious one - a fair observation given CH’s admittedly arbitrary threshold for what constitutes such stress. Furthermore, \citet{richards} criticises dispersion measures, such as CSSD, as a measure of idiosyncratic variance for their susceptibility to omitted variable bias. Likewise, Richards also comments that equally weighted measures such as CH’s $\bar{r}$ will yield dispersions that are dominated by high-variance smaller stocks - potentially failing to capture herding contributed by larger, more economically significant stocks. Studies such as \citet{chiang} that calculate both equally-weighted and value-weighted market portfolios, however, report very similar results in practice.
+
+\citet{chiang} does contend that the use of OLS within these papers is likely inefficient, given that the error distribution does not conform to Gaussian requirements - the presence of extreme outliers can significantly affect the tails of the distribution and produce bias variance estimators. Even after correcting for such a bias, OLS is inefficient. As such, the Chiang suggests utilising a quantile regression, which produces estimates of the $\gamma$th conditional-quantile by minimizing weighted deviations from the conditional quantile function. This not only produces a more efficient estimator in the presence of autocorrelative errors, but also allows observation of the herding relationship at different points within the returns dispersion distribution.
+
+There are two papers that pioneered the use of an alternative measure of herding, utilising investor-level micro-data: \citet{lakonishok} and Sias (2004). Lakonishok (herein LSV) proposed that herding could be detected in a market if there is a degree of correlation across investors in buying and selling a given stock, or in other words ending up on the same side of the market. The paper assessed end-of-quarter holdings for 769 U.S. all equity tax-exempt funds, primarily pension funds, run by 341 institutional money managers between 1985 and 1989. For each stock $i$ held within a given quarter $t$, LSV calculates the measure of herding $H(i)$,
+
+$$
+H(i)=|\frac{B(i)}{B(i)+S(i)}-p(t)|-AF(i)
+$$
+
+where $B(i)$ is the number of money managers who increase their holdings in the stock in a quarter (net buyers), $S(i)$ is the net sellers, $p(t)$ is the expected proportion of money managers buying in that quarter relative to the number active $(\frac{1}{N}\sum^N_{i=1}\frac{B(i)}{B(i)+S(i)})$, and $AF(i)$ is an adjustment factor - the expected value of the first equation term under the null hypothesis of no herding. The construction of this measure aims to capture the magnitude of the difference in the ratio of buyers to active money managers (the first term) and the aggregate, or expected, ratio across the whole market in a given period as defined by $p(t)$. This is adjusted with $AF(i)=E[(|\frac{B(i)}{S(i)+B(i)}-p(t)|)|H_0]$, declining in the number of money manager active in a given stock. This measure is computed for each $i$ and averaged across sub groups. If herding is present within a sub group, we would expect a significantly different number of investors to end up on the same side of the market, i.e. a significantly positive value of $H(i)$. Crucially, LSV claims that the sample of money-managers does not constitute a random sample, an as such we may expect these investors who compete for the same customers to follow others’ signals.
+
+LSV finds an average of $H(i)=0.027$, implying that if $p(t)=0.5$  then 52.7\% of investors would end up on the same side of the market of an average stock. This is a notably small affect, unsurprising given 95\% of the sample’s trading volume were concentrated in the largest stocks where herding rarely occurred. 
+
+Whilst this approach benefits over CH and CCK’s aggregate pricing approach in that it is are observing a more direct herding measure rather than an indirect aggregate relationship, LSV has some significant drawbacks in comparison. As observed by \citet{bikh-review}, firstly the nature of the sample means that too few stocks are actually changing hands within each quarter, which contributes to the low herding magnitude. Secondly, volume is not considered within the model at all. More significantly, the lengthy time periods mean that intertemporal herding, any herding occurring within a timeframe smaller than a quarter, cannot be captured.
+
 \break
 
 \section{Empirical Research}
 
 \subsection{Econometric Theory}
 
-\subsubsection*{Data}
+\subsubsection*{[Data]}
 
-Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the presence of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation.
+Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship-bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the presence of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation.
 
 \begin{center}
     
-    \includegraphics[scale=0.3]{graphics/stringency_vaccination_line.png}
+\includegraphics[scale=0.3]{graphics/stringency_vaccination_line.png}
 
 \end{center}
 
 In addition to market data, we collect data within the same period on the Chinese government response to COVID-19 from the Oxford Covid-19 Government Response Tracker (OxCGRT), as produced by the Blavatnik School of Government at the University of Oxford \citep{OxCGRT}. In particular, we utilise the Stringency Index within our main specification, which seeks to record the severity of ‘lockdown style’ policies that primarily restricts people’s behaviour and movement.
 
-\subsubsection*{Methodology}
+\subsubsection*{[Methodology]}
 
 We adopt the approach proposed by \citet{ch} (CH), utilising the relationship between dispersion and market returns as our measure of herding. However, we have chosen to utilise \citet{cck}'s (CCK) alternative specification, namely that our specification’s measure of dispersion is the cross-sectional absolute deviation (CSAD), expressed as
 
@@ -71,7 +139,7 @@ $$
 CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\epsilon_t
 $$
 
-where $\gamma$ denote the model’s coefficients and $\epsilon_t$ the error term at time $t$. This model’s rationale is as follows: according to rational asset-pricing models, as individual assets have varying degrees of sensitivity to overall market return, the relationship between dispersions and market returns are linear and increasing. However, if herding is present within the market CCK suggests that this relationship will no longer hold, as investors’ conformity will result in a non-linear or even decreasing relationship between the two variables. As such, if herding is present we would expect a negative $\gamma_2$, indicating a non-linear relationship.
+where $\gamma$ denote the model’s coefficients and $\epsilon_t$ the error term at time $t$. This model’s rationale is as follows: according to rational asset-pricing models, as individual assets have varying degrees of sensitivity to overall market return, the relationship between dispersions and market returns are linear and increasing. However, if herding is present within the market CCK suggests that this relationship will no longer hold, as investors’ conformity will result in a non-linear, decreasing or even negative relationship between the two variables. As such, if herding is present we would expect a negative $\gamma_2$, indicating a non-linear relationship. Conversely, in the absence of herding we would expect $\gamma_1$ to be positive and $\gamma_2$ to be insignificant.
 
 $CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. Whilst observers such as \citet{yao} state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results.
 
@@ -83,7 +151,7 @@ $$
 
 where $P_{i,t}$ is the closing price of equity $i$ at time $t$. This is in order to preserve time-additivity and log-normality, in addition to aiding interpretation of our model’s predicted coefficients.
 
-\subsubsection*{Extension 1 - The Effect of 'Lockdown Style' Policies on Herding}
+\subsubsection*{[Extension 1 - The Effect of 'Lockdown Style' Policies on Herding]}
 
 In order to distil China’s containment policy response over time, we utilise OxCGRT’s ‘Stringency Index’. This index calculates a daily average of 9 ‘lockdown style’ policy indicators the database records: closing of schools and universities, closing of workplaces, cancelling of public events, limits on gatherings, closing of public transport, shelter-in-place orders, restrictions on internal city/region movements, restrictions on international travel and presence of COVID-19 public information campaigns. Importantly to China, policies that only apply to a particular region rather than nationally are weighted less within the final index. We chose a variation of this Stringency Index that is split based upon how these policies depend on vaccination status, with weightings applied according to the vaccination rate of the population:
 
@@ -100,7 +168,7 @@ As highlighted by \citet{aknin}, many previous studies utilising ‘lockdown sty
 CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3STRINGENCY_t+\Gamma{A}+\epsilon_t
 \end{equation}
 
-where $A$ is a matrix of controls with the vector $\Gamma$ of coefficients. Formally, within our controls we include a 7 day moving average of the number of deaths and number of cases per 100,000 population, and the daily single-vaccination rate.
+where $A$ is a matrix of controls with the vector $\Gamma$ of coefficients. Formally, within our controls we include a 7 day moving average of the number of deaths, and the daily single-vaccination rate. A moving average has been chosen for our mortality rate measure in order to smooth measurement errors present in daily data.
 
 This approach has limited power to capture the possible non-linear relationship between containment policies and mental health in herding. It may be that cognitive stress strong enough to effect herding only occurs during demonstrably limiting lockdown policies. We have included multiple alterations to Model 1 that seek to capture this non-linear relationship. Firstly, we have replaced $STRINGENCY_t$ with dummy indicators $S^{j\%}$, taking the value 1 if the Stringency Index value falls within the upper $j$th percentile of the index’s distribution. As such, our Model 2 is expressed as
 
@@ -118,11 +186,11 @@ CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3STRINGENCY_t+\gamm
 
 where $DAYS_t$ is the cumulative number of days $STRINGENCY_t>70$, with the indicator resetting once the index drops below 70. We chose 70 as our threshold for high-stringency once again following Aknin.
 
-\subsubsection*{Extension 2 - Time Series Analysis}
+\subsubsection*{[Extension 2 - Time Series Analysis]}
 
 Our static model is likely subject to issues causing failure of the Gauss-Markov assumptions necessary to maintain efficiency of OLS as an estimator and validity of standard errors. 
 
-Particularly, it is likely our error term suffers from serial correlation, as market dispersion measures such as CSSD and high-frequency market data in general are frequently observed to exhibit correlation over time. As such it is necessary we test for correlations between our model’s residuals over time in order to determine if the true disturbances are auto-correlated. Observing the partial auto-correlation function (PACF) we can see that auto-correlations of $CSSD$ are present for values of $t<10$, and as such it is appropriate to include lags until this point as to control for this residual correlation. The PACF partials out residual correlations of intervening lags between time periods, as such allowing us to observe the level of partial auto-correlation at each time period:
+Particularly, it is likely our error term suffers from serial correlation, as market dispersion measures such as CSAD and high-frequency market data in general are frequently observed to exhibit high levels of autocorrelation \citep{cck}. As such it is necessary we test for correlations between our model’s residuals over time in order to determine if the true disturbances are auto-correlated. Observing the partial autocorrelation function (PACF) we can see that autocorrelations of $CSSD$ are present for values of $t<10$, and as such it is appropriate to include lags until this point as to control for this residual correlation. The PACF partials out residual correlations of intervening lags between time periods, as such allowing us to observe the level of partial autocorrelation at each time period:
 
 $$
 PACF=\frac{cov(CSSD_t,CSSD_{t-j}|CSSD_{t-k}\in{t<k<j})}{\sqrt{var(CSSD_t|CSSD_{t-k}\in{t<k<j})var(CSSD_{t-j}|CSSD_{t-k}\in{t<k<j})}}
@@ -136,15 +204,15 @@ $$
 
 with $\rho=1$. Such a highly persistent process fails the requirement of weak dependence and we will not be able to utilise the Ergodic Theorem nor the Central Limit Theorem necessary for coefficient estimation. As such it is prudent to run an Augmented \citet{dfuller} test, fitting the model above with an intercept. The test is augmented with lags of $\Delta{CSSD_t}$ in order to control for serially-correlated errors within the test’s model. Under the null the parameter for $CSSD_{t-1}$ is equal to 0, equivalent to $\rho=1$ above. As outlined by cite, statistical significance of coefficients from this regression can be determined using usual t tests and values.
 
-We confirm the results of the PACF and Augmented Dickey-Fuller test by running a \citet{breusch} \citet{godfrey} test. This is necessary as, given the test utilises the Lagrange Multiplier (LM) statistic, we can conduct a joint test of higher auto-correlation up to a specified level of lags. The test, derived from constrained optimisation, is equivalent to running an OLS regression on a ‘restricted’ version of our model, or our model specification excluding any auto-correlated errors, to obtain predicted residuals $\hat{\epsilon}_t$ for all $t\in[0,n]$. $\hat{\epsilon}_t$ is then regressed upon the remaining predicted residuals and independent variables. It is worth noting that this test is beneficial above the Augmented Dickey-Fuller as the presence of our independent variables within the auxiliary regression means the strict-exogeneity assumption is no longer needed. The LM statistic is constructed:
+We confirm the results of the PACF and Augmented Dickey-Fuller test by running a \citet{breusch} \citet{godfrey} test. This is necessary as, given the test utilises the Lagrange Multiplier (LM) statistic, we can conduct a joint test of higher autocorrelation up to a specified level of lags. The test, derived from constrained optimisation, is equivalent to running an OLS regression on a ‘restricted’ version of our model, or our model specification excluding any auto-correlated errors, to obtain predicted residuals $\hat{\epsilon}_t$ for all $t\in[0,n]$. $\hat{\epsilon}_t$ is then regressed upon the remaining predicted residuals and independent variables. It is worth noting that this test is beneficial above the Augmented Dickey-Fuller as the presence of our independent variables within the auxiliary regression means the strict-exogeneity assumption is no longer needed. The LM statistic is constructed:
 
 $$
 LM=(n-p)R^2_{\hat{\epsilon}} \sim\chi^2_p
 $$
 
-where $n$ is the number of observations, $p$ is the number of auto-correlations and $R^2_{\hat{\epsilon}}$ the R-squared of the auxiliary regression. This statistic, following a Chi-Squared distribution, tests the joint null that the coefficient of each level of auto-correlation is equal to 0.
+where $n$ is the number of observations, $p$ is the number of autocorrelations and $R^2_{\hat{\epsilon}}$ the R-squared of the auxiliary regression. This statistic, following a Chi-Squared distribution, tests the joint null that the coefficient of each level of autocorrelation is equal to 0.
 
-In addition to auto-correlation, heteroskedastic errors within our model pose a threat to the efficiency of OLS as an estimator in addition to the validity of our usual standard errors.
+In addition to autocorrelation, heteroskedastic errors within our model pose a threat to the efficiency of OLS as an estimator in addition to the validity of our usual standard errors.
 
 To correct for these factors within our standard errors and ensure validity of inference tests, we chose to utilise the \citet{newey} estimator for our regressions in order to compute heteroskedastic and autocorrelative consistent (HAC) errors.
 
@@ -154,17 +222,18 @@ $$
 X'\hat{\Omega_0}X=\frac{1}{T}\sum_{t=1}^T\hat{\epsilon_t}^2x_t'x_t
 $$
 
-where $X$ is a $t\times1$ matrix of the vectors $x_t$ containing our independent variables at $t$, $\hat{\beta}$ is a matrix of the model’s predicted coefficients, $\hat{\epsilon_t}$ is the predicted residuals at $t$ and $\Omega_0$ is the variance-covariance matrix for our residuals under no serial correlation. When introducing the possibility of auto-correlation, the White formulation is no longer valid as the covariance values within the variance-covariance matrix can no longer assumed to be 0. Likewise, we cannot extend this White formulation to be $X'\hat{\Omega}X$, as given $\hat{\Omega}=\hat{\epsilon}\hat{\epsilon}'$, this estimator results in a $\widehat{Var(\hat{\beta})}=0$.
+where $X$ is a $t\times1$ matrix of the vectors $x_t$ containing our independent variables at $t$, $\hat{\beta}$ is a matrix of the model’s predicted coefficients, $\hat{\epsilon_t}$ is the predicted residuals at $t$ and $\Omega_0$ is the variance-covariance matrix for our residuals under no serial correlation. When introducing the possibility of autocorrelation, the White formulation is no longer valid as the covariance values within the variance-covariance matrix can no longer assumed to be 0. Likewise, we cannot extend this White formulation to be $X'\hat{\Omega}X$, as given $\hat{\Omega}=\hat{\epsilon}\hat{\epsilon}'$, this estimator results in a $\widehat{Var(\hat{\beta})}=0$.
 
-The Newey-West estimator proposes a solution to this applying a weighting of $w_l=1-\frac{l}{L+1}$ to each auto-correlation within the variance-covariance matrix according to their level of auto-correlation, $L$. As such, the Newey-West variance estimator is expressed by
+The Newey-West estimator proposes a solution to this applying a weighting of $w_l=1-\frac{l}{L+1}$ to each autocorrelation within the variance-covariance matrix according to their level of autocorrelation, $L$. As such, the Newey-West variance estimator is expressed by
 
 $$
 \widehat{Var_{nw}(\hat{\beta})}=(X'X)^{-1}X'\hat{\Omega}_{nw}X(X'X)^{-1}=X'\hat{\Omega}_0X+\frac{1}{T}\sum^L_{l=1}\sum^T_{t=l+1}w_l\epsilon_t\epsilon_{t-l}(x_tx'_{t-l}+x_{t-l}x'_t)
 $$
 
-Auto-correlations further away from $t$ are weighted less within our estimator, which converge to 0 under the assumption of weak-dependence, maintaining efficiency of the estimator by preventing too many estimations of coefficients.
+Autocorrelations further away from $t$ are weighted less within our estimator, which converge to 0 under the assumption of weak-dependence, maintaining efficiency of the estimator by preventing too many estimations of coefficients.
 
-In order to calculate how many levels of auto-correlations we take into account, i.e. our truncation parameter $L$, we observe both common practice outlined in \cite{greene}, dictating that $L\approx{T^{1/4}}$, and the results of our PACF.
+In order to calculate how many levels of autocorrelations we take into account, i.e. our truncation parameter $L$, we observe both common practice outlined in \cite{greene}, dictating that $L\approx{T^{1/4}}$, and the results of our PACF.
+
 
 \subsection{Empirical Analysis and Results}
 
