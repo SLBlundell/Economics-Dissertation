@@ -24,19 +24,19 @@ la var r_m_abs "Absolute Market Return"
 tempvar PL75
 egen `PL75' = pctile(stringencyindex_weightedaverage), p(75)
 gen D25Upper = 0
-label var D25Upper "Dummy variable = 1 if stringency fall within upper 25%"
+label var D25Upper "S upper 25%"
 replace D25Upper = 1 if stringencyindex_weightedaverage >= `PL75'
 
 tempvar PL90
 egen `PL90' = pctile(stringencyindex_weightedaverage), p(90)
 gen D10Upper = 0
-label var D10Upper "Dummy variable = 1 if stringency fall within upper 10%"
+label var D10Upper "S upper 10%"
 replace D10Upper = 1 if stringencyindex_weightedaverage >= `PL90'
 
 tempvar PL95
 egen `PL95' = pctile(stringencyindex_weightedaverage), p(95)
 gen D5Upper = 0
-label var D5Upper "Dummy variable = 1 if stringency fall within upper 5%"
+label var D5Upper "S upper 5%"
 replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
 
 sort date
@@ -54,23 +54,28 @@ esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mea
 
 quietly reg csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths
 estat bgodfrey, lags(1 2:20)
-
 dfuller csad
+swilk csad
 
 // Regressions //
 
-newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
+eststo: newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
+eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
+eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
+eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
+eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
 
-newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
-newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
-newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
+esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
+esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Regression Results \label{reg1}") addnotes("First line" "Second line")
+est clear
 
-newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
+eststo: newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
+eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
+eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
+eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
 
-newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
-newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
-newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
-
-newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
+esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
+esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Robustness Results \label{reg2}") addnotes("First line" "Second line")
+est clear
 
 log close
