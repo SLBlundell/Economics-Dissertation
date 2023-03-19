@@ -107,6 +107,18 @@ LSV finds an average of $H(i)=0.027$, implying that if $p(t)=0.5$  then 52.7\% o
 
 Whilst this approach benefits over CH and CCK’s aggregate pricing approach in that it is are observing a more direct herding measure rather than an indirect aggregate relationship, LSV has some significant drawbacks in comparison. As observed by \citet{bikh-review}, firstly the nature of the sample means that too few stocks are actually changing hands within each quarter, which contributes to the low herding magnitude. Secondly, volume is not considered within the model at all. More significantly, the lengthy time periods mean that intertemporal herding, any herding occurring within a timeframe smaller than a quarter, cannot be captured.
 
+\subsubsection*{[Herding within Markets]} 
+
+CH and CCK’s methodology emerged as the dominant measure of herding within the empirical literature given its replicability.
+
+********INSERT SMALL SECTION ON OVERVIEW OF DIFFERENT MARKETS STUDIED********
+
+The first paper to apply this measure to Chinese equity markets was \citet{dk} (herein DK). DK hypothesised that the weak rule of law and high-levels of government involvement would result in additional volatility \citep{su}, and lead investors to rely more on well-informed “government insiders”. As such, DK suggested herding was likely in Chinese markets. Employing CH’s methodology and specification with a sample of daily returns from 375 equities listed on the Shanghai and Shenzhen Stock Exchange from 1999 to 2002, however, DK found no evidence that herding was present within the market.
+
+These results would be contradicted by \citet{tan}, this time utilising CCK’s specification. Chinese A-share markets are dominated by domestic individual investors, whereas B-shares are primarily for foreign investors. Tan, suggesting that individual A-share investors lacked significant knowledge of investments, exploited this differential to determine whether these two groups differed in herding behaviour.
+
+Using a sample period from 1997 to 2003 of daily returns for dual-listed Shanghai A and B and Shenzhen A and B stocks, Tan found significantly negative $R_{m,t}^2$ coefficients for both A and B share markets. Not only does this contradict DK’s findings, it also fails to confirm CCK's finding that investors in developed markets do not display herding, given herding is present in B-share markets where international investors dominate. Tan suggests that developed market participants may exhibit different behavioural tendencies in their own markets compared to international markets, with international investors relying more on public information in markets outside of their own. One could suggest that the relative inaccessibility and reliability of fundamental information on Chinese equities could bolster this uncertainty \textbf{CITE}. However, Tan uses a much smaller sample of 87 dual-listed firms compared to DK, with both samples covering similar time periods, therefore it is possible that variation in the results of the two papers stems from differing sample characteristics rather than methodological differences.
+
 \break
 
 \section{Empirical Research}
@@ -115,11 +127,11 @@ Whilst this approach benefits over CH and CCK’s aggregate pricing approach in 
 
 \subsubsection*{[Data]}
 
-Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship-bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the presence of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation.
+Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use daily data following \citet{ch}'s observation that "herd behavior is a very short-lived phenomenon", which has been confirmed by future studies \citep{tan}. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship-bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the presence of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation.
 
 \begin{center}
     
-\includegraphics[scale=0.3]{graphics/stringency_vaccination_line.png}
+\includegraphics[scale=0.4]{graphics/stringency_line.png}
 
 \end{center}
 
@@ -141,9 +153,9 @@ $$
 
 where $\gamma$ denote the model’s coefficients and $\epsilon_t$ the error term at time $t$. This model’s rationale is as follows: according to rational asset-pricing models, as individual assets have varying degrees of sensitivity to overall market return, the relationship between dispersions and market returns are linear and increasing. However, if herding is present within the market CCK suggests that this relationship will no longer hold, as investors’ conformity will result in a non-linear, decreasing or even negative relationship between the two variables. As such, if herding is present we would expect a negative $\gamma_2$, indicating a non-linear relationship. Conversely, in the absence of herding we would expect $\gamma_1$ to be positive and $\gamma_2$ to be insignificant.
 
-$CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. Whilst observers such as \citet{yao} state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results.
+$CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. Whilst observers state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM \citep{yao, tan}, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results.
 
-Following Yao et al. we utilise logarithmic daily returns within our calculations of $CSAD_t$ and $R_{m,t}$
+Following empirical consensus \citep{yao, tan, chiang} we utilise logarithmic daily returns within our calculations of $CSAD_t$ and $R_{m,t}$
 
 $$
 R_{i,t}=100\times(\ln{P_{i,t}}-\ln{P_{i,t-1}})
