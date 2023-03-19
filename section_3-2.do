@@ -48,10 +48,7 @@ tsset time
 // Summary Stats //
 
 estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
-esttab, cells("mean sd min max count")
-estout, cells("mean sd min max count")
-
-esttab using ".\TeX_files\SummaryTable.tex", replace refcat(pop "\emph{Base Model}" stringencyindex_weightedaverage "\vspace{0.1em} emph{Stringency}" populationvaccinated "\vspace{0.1em} emph{Controls}", nolabel) cells("mean(fmt(%8.0fc %8.0fc %8.0fc %8.0fc  2)) sd min max count(fmt(0))") nostar unstack nonumber compress nomtitle nonote noobs label booktabs collabels("Mean" "SD" "Min" "Max" "N")
+esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
 
 // t-tests //
 
