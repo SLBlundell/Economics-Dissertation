@@ -1,8 +1,8 @@
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- opened on:  19 Mar 2023, 16:34:22
+ opened on:  19 Mar 2023, 19:55:58
 
 . 
 . cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED"
@@ -95,7 +95,8 @@ Time variable: time, 2 to 733
 . 
 . // Summary Stats //
 . 
-. estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
+. estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(
+> stat) stat(sum mean sd min max n)
 
 Summary statistics: sum mean sd min max count
      for variables: csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths
@@ -110,7 +111,8 @@ c6e_stayat~s |      1771   2.419399   .9603953          0          3        732
 population~d |  28667.29   39.16296   42.22697          0      89.35        732 
 rolling_de~s |  44556.29   60.86924   291.1154          0       3964        732 
 
-. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
+. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) 
+> max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
 (output written to .\TeX_files\SummaryTable.tex)
 
 . 
@@ -147,7 +149,6 @@ Breusch–Godfrey LM test for autocorrelation
 ---------------------------------------------------------------------------
                         H0: no serial correlation
 
-. 
 . dfuller csad
 
 Dickey–Fuller test for unit root          Number of obs  = 731
@@ -163,93 +164,18 @@ H0: Random walk without drift, d = 0
 --------------------------------------------------------------
 MacKinnon approximate p-value for Z(t) = 0.0000.
 
+. swilk csad
+
+                   Shapiro–Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob>z
+-------------+------------------------------------------------------
+        csad |        732    0.94900     24.217     7.790    0.00000
+
 . 
 . // Regressions //
 . 
-. newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
-
-Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  5,       726) =      26.34
-                                                Prob > F          =     0.0000
-
--------------------------------------------------------------------------------------------------
-                                |             Newey–West
-                           cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
---------------------------------+----------------------------------------------------------------
-                        r_m_abs |   .0084072   .0018367     4.58   0.000     .0048013    .0120131
-                        r_m_sqr |  -.0003743   .0002693    -1.39   0.165    -.0009029    .0001543
-stringencyindex_weightedaverage |   .0414164     .00833     4.97   0.000     .0250625    .0577702
-           populationvaccinated |  -.0001658    .000039    -4.25   0.000    -.0002424   -.0000892
-                 rolling_deaths |   2.67e-06   3.10e-06     0.86   0.388    -3.41e-06    8.75e-06
-                          _cons |   .0982468   .0056149    17.50   0.000     .0872234    .1092702
--------------------------------------------------------------------------------------------------
-
-. 
-. newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
-
-Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  5,       726) =      26.67
-                                                Prob > F          =     0.0000
-
---------------------------------------------------------------------------------------
-                     |             Newey–West
-                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
----------------------+----------------------------------------------------------------
-             r_m_abs |   .0075311   .0019507     3.86   0.000     .0037013    .0113608
-             r_m_sqr |  -.0004105   .0002776    -1.48   0.140    -.0009554    .0001344
-                     |
-  D25Upper#c.r_m_sqr |
-                  1  |   .0007977   .0003638     2.19   0.029     .0000835    .0015119
-                     |
-populationvaccinated |  -.0001468   .0000398    -3.69   0.000     -.000225   -.0000686
-      rolling_deaths |  -6.23e-06   2.93e-06    -2.13   0.034     -.000012   -4.85e-07
-               _cons |   .1272204   .0027241    46.70   0.000     .1218724    .1325684
---------------------------------------------------------------------------------------
-
-. newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
-
-Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  5,       726) =      22.23
-                                                Prob > F          =     0.0000
-
---------------------------------------------------------------------------------------
-                     |             Newey–West
-                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
----------------------+----------------------------------------------------------------
-             r_m_abs |   .0085475   .0018818     4.54   0.000      .004853     .012242
-             r_m_sqr |  -.0003368   .0002681    -1.26   0.209    -.0008633    .0001896
-                     |
-  D10Upper#c.r_m_sqr |
-                  1  |   .0000828   .0005347     0.15   0.877     -.000967    .0011325
-                     |
-populationvaccinated |  -.0001503   .0000398    -3.78   0.000    -.0002284   -.0000723
-      rolling_deaths |  -6.32e-06   2.97e-06    -2.13   0.034    -.0000121   -4.91e-07
-               _cons |   .1268956   .0027098    46.83   0.000     .1215756    .1322156
---------------------------------------------------------------------------------------
-
-. newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
-
-Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  5,       726) =      23.33
-                                                Prob > F          =     0.0000
-
---------------------------------------------------------------------------------------
-                     |             Newey–West
-                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
----------------------+----------------------------------------------------------------
-             r_m_abs |   .0092783   .0018424     5.04   0.000     .0056613    .0128952
-             r_m_sqr |  -.0004233   .0002691    -1.57   0.116    -.0009516    .0001049
-                     |
-   D5Upper#c.r_m_sqr |
-                  1  |  -.0066579   .0017648    -3.77   0.000    -.0101225   -.0031933
-                     |
-populationvaccinated |  -.0001568   .0000401    -3.91   0.000    -.0002355   -.0000781
-      rolling_deaths |  -6.34e-06   2.99e-06    -2.12   0.034    -.0000122   -4.71e-07
-               _cons |   .1269856   .0027368    46.40   0.000     .1216125    .1323586
---------------------------------------------------------------------------------------
-
-. 
-. newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
 Maximum lag = 5                                 F(  5,       726) =      28.72
@@ -266,9 +192,9 @@ stringencyindex_weightedaverage |   .4540178   .1079195     4.21   0.000     .24
                  rolling_deaths |   .0000178    .000037     0.48   0.631    -.0000549    .0000905
                           _cons |   1.124429   .0713373    15.76   0.000     .9843765    1.264481
 -------------------------------------------------------------------------------------------------
+(est1 stored)
 
-. 
-. newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
 Maximum lag = 5                                 F(  5,       726) =      51.44
@@ -288,8 +214,9 @@ populationvaccinated |  -.0015114   .0005107    -2.96   0.003     -.002514   -.0
       rolling_deaths |   -.000079   .0000327    -2.42   0.016    -.0001431   -.0000148
                _cons |   1.444957   .0333305    43.35   0.000     1.379521    1.510393
 --------------------------------------------------------------------------------------
+(est2 stored)
 
-. newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
 Maximum lag = 5                                 F(  5,       726) =      26.64
@@ -309,8 +236,9 @@ populationvaccinated |    -.00158   .0005113    -3.09   0.002    -.0025838   -.0
       rolling_deaths |  -.0000806   .0000335    -2.41   0.016    -.0001463   -.0000148
                _cons |   1.439261   .0331323    43.44   0.000     1.374215    1.504308
 --------------------------------------------------------------------------------------
+(est3 stored)
 
-. newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
 Maximum lag = 5                                 F(  5,       726) =      27.98
@@ -330,9 +258,9 @@ populationvaccinated |  -.0016804   .0005145    -3.27   0.001    -.0026904   -.0
       rolling_deaths |   -.000081   .0000339    -2.39   0.017    -.0001475   -.0000145
                _cons |   1.440117   .0339131    42.46   0.000     1.373538    1.506697
 --------------------------------------------------------------------------------------
+(est4 stored)
 
-. 
-. newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
 Maximum lag = 5                                 F(  5,       726) =      30.80
@@ -349,11 +277,208 @@ c6e_stayathomerequirements |   .0574984   .0194221     2.96   0.003     .0193683
             rolling_deaths |  -.0000231   .0000269    -0.86   0.390    -.0000759    .0000296
                      _cons |   1.299315   .0536884    24.20   0.000     1.193912    1.404718
 --------------------------------------------------------------------------------------------
+(est5 stored)
+
+. 
+. esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
+
+----------------------------------------------------------------------------------------------------
+                              (1)             (2)             (3)             (4)             (5)   
+----------------------------------------------------------------------------------------------------
+Absolute Market Re~n      0.18149***      0.16320***      0.18165***      0.19437***      0.18379***
+                        (0.02388)       (0.02377)       (0.02423)       (0.02385)       (0.02425)   
+
+Market Return Squa~d     -0.01026**      -0.01128***     -0.00993**      -0.01125**      -0.01020** 
+                        (0.00451)       (0.00322)       (0.00436)       (0.00440)       (0.00466)   
+
+Stringency Index          0.45402***                                                                
+                        (0.10792)                                                                   
+
+Vaccination Rate         -0.00175***     -0.00151***     -0.00158***     -0.00168***     -0.00166***
+                        (0.00051)       (0.00051)       (0.00051)       (0.00051)       (0.00050)   
+
+COVID-19 Deaths 7-~v      0.00002        -0.00008**      -0.00008**      -0.00008**      -0.00002   
+                        (0.00004)       (0.00003)       (0.00003)       (0.00003)       (0.00003)   
+
+Dummy variable = 1~y                      0.00000                                                   
+                                              (.)                                                   
+
+Dummy variable = 1~y                      0.01513***                                                
+                                        (0.00508)                                                   
+
+Dummy variable = 1~y                                      0.00000                                   
+                                                              (.)                                   
+
+Dummy variable = 1~y                                      0.00257                                   
+                                                        (0.00769)                                   
+
+Dummy variable = 1~y                                                      0.00000                   
+                                                                              (.)                   
+
+Dummy variable = 1~y                                                     -0.10644***                
+                                                                        (0.03225)                   
+
+C6: Shelter in Pla~r                                                                      0.05750***
+                                                                                        (0.01942)   
+
+Constant                  1.12443***      1.44496***      1.43926***      1.44012***      1.29932***
+                        (0.07134)       (0.03333)       (0.03313)       (0.03391)       (0.05369)   
+----------------------------------------------------------------------------------------------------
+Observations                  732             732             732             732             732   
+----------------------------------------------------------------------------------------------------
+Standard errors in parentheses
+* p<0.10, ** p<0.05, *** p<0.01
+
+. esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Re
+> gression Results \label{reg1}") addnotes("First line" "Second line")
+(output written to ./TeX_files/Regressions_1.tex)
+
+. est clear
+
+. 
+. eststo: newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
+
+Regression with Newey–West standard errors      Number of obs     =        732
+Maximum lag = 5                                 F(  5,       726) =      26.34
+                                                Prob > F          =     0.0000
+
+-------------------------------------------------------------------------------------------------
+                                |             Newey–West
+                           cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------------------------+----------------------------------------------------------------
+                        r_m_abs |   .0084072   .0018367     4.58   0.000     .0048013    .0120131
+                        r_m_sqr |  -.0003743   .0002693    -1.39   0.165    -.0009029    .0001543
+stringencyindex_weightedaverage |   .0414164     .00833     4.97   0.000     .0250625    .0577702
+           populationvaccinated |  -.0001658    .000039    -4.25   0.000    -.0002424   -.0000892
+                 rolling_deaths |   2.67e-06   3.10e-06     0.86   0.388    -3.41e-06    8.75e-06
+                          _cons |   .0982468   .0056149    17.50   0.000     .0872234    .1092702
+-------------------------------------------------------------------------------------------------
+(est1 stored)
+
+. eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
+
+Regression with Newey–West standard errors      Number of obs     =        732
+Maximum lag = 5                                 F(  5,       726) =      26.67
+                                                Prob > F          =     0.0000
+
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .0075311   .0019507     3.86   0.000     .0037013    .0113608
+             r_m_sqr |  -.0004105   .0002776    -1.48   0.140    -.0009554    .0001344
+                     |
+  D25Upper#c.r_m_sqr |
+                  1  |   .0007977   .0003638     2.19   0.029     .0000835    .0015119
+                     |
+populationvaccinated |  -.0001468   .0000398    -3.69   0.000     -.000225   -.0000686
+      rolling_deaths |  -6.23e-06   2.93e-06    -2.13   0.034     -.000012   -4.85e-07
+               _cons |   .1272204   .0027241    46.70   0.000     .1218724    .1325684
+--------------------------------------------------------------------------------------
+(est2 stored)
+
+. eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
+
+Regression with Newey–West standard errors      Number of obs     =        732
+Maximum lag = 5                                 F(  5,       726) =      22.23
+                                                Prob > F          =     0.0000
+
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .0085475   .0018818     4.54   0.000      .004853     .012242
+             r_m_sqr |  -.0003368   .0002681    -1.26   0.209    -.0008633    .0001896
+                     |
+  D10Upper#c.r_m_sqr |
+                  1  |   .0000828   .0005347     0.15   0.877     -.000967    .0011325
+                     |
+populationvaccinated |  -.0001503   .0000398    -3.78   0.000    -.0002284   -.0000723
+      rolling_deaths |  -6.32e-06   2.97e-06    -2.13   0.034    -.0000121   -4.91e-07
+               _cons |   .1268956   .0027098    46.83   0.000     .1215756    .1322156
+--------------------------------------------------------------------------------------
+(est3 stored)
+
+. eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
+
+Regression with Newey–West standard errors      Number of obs     =        732
+Maximum lag = 5                                 F(  5,       726) =      23.33
+                                                Prob > F          =     0.0000
+
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .0092783   .0018424     5.04   0.000     .0056613    .0128952
+             r_m_sqr |  -.0004233   .0002691    -1.57   0.116    -.0009516    .0001049
+                     |
+   D5Upper#c.r_m_sqr |
+                  1  |  -.0066579   .0017648    -3.77   0.000    -.0101225   -.0031933
+                     |
+populationvaccinated |  -.0001568   .0000401    -3.91   0.000    -.0002355   -.0000781
+      rolling_deaths |  -6.34e-06   2.99e-06    -2.12   0.034    -.0000122   -4.71e-07
+               _cons |   .1269856   .0027368    46.40   0.000     .1216125    .1323586
+--------------------------------------------------------------------------------------
+(est4 stored)
+
+. 
+. esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
+
+------------------------------------------------------------------------------------
+                              (1)             (2)             (3)             (4)   
+------------------------------------------------------------------------------------
+Absolute Market Re~n      0.00841***      0.00753***      0.00855***      0.00928***
+                        (0.00184)       (0.00195)       (0.00188)       (0.00184)   
+
+Market Return Squa~d     -0.00037        -0.00041        -0.00034        -0.00042   
+                        (0.00027)       (0.00028)       (0.00027)       (0.00027)   
+
+Stringency Index          0.04142***                                                
+                        (0.00833)                                                   
+
+Vaccination Rate         -0.00017***     -0.00015***     -0.00015***     -0.00016***
+                        (0.00004)       (0.00004)       (0.00004)       (0.00004)   
+
+COVID-19 Deaths 7-~v      0.00000        -0.00001**      -0.00001**      -0.00001** 
+                        (0.00000)       (0.00000)       (0.00000)       (0.00000)   
+
+Dummy variable = 1~y                      0.00000                                   
+                                              (.)                                   
+
+Dummy variable = 1~y                      0.00080**                                 
+                                        (0.00036)                                   
+
+Dummy variable = 1~y                                      0.00000                   
+                                                              (.)                   
+
+Dummy variable = 1~y                                      0.00008                   
+                                                        (0.00053)                   
+
+Dummy variable = 1~y                                                      0.00000   
+                                                                              (.)   
+
+Dummy variable = 1~y                                                     -0.00666***
+                                                                        (0.00176)   
+
+Constant                  0.09825***      0.12722***      0.12690***      0.12699***
+                        (0.00561)       (0.00272)       (0.00271)       (0.00274)   
+------------------------------------------------------------------------------------
+Observations                  732             732             732             732   
+------------------------------------------------------------------------------------
+Standard errors in parentheses
+* p<0.10, ** p<0.05, *** p<0.01
+
+. esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Ro
+> bustness Results \label{reg2}") addnotes("First line" "Second line")
+(file ./TeX_files/Regressions_2.tex not found)
+(output written to ./TeX_files/Regressions_2.tex)
+
+. est clear
 
 . 
 . log close
       name:  <unnamed>
        log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- closed on:  19 Mar 2023, 16:34:23
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ closed on:  19 Mar 2023, 19:56:03
+----------------------------------------------------------------------------------------------------------------------------------

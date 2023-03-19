@@ -1,0 +1,51 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Robustness Results \label{reg2}}
+\begin{tabular}{l*{4}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+\midrule
+Absolute Market Return&     0.00841\sym{***}&     0.00753\sym{***}&     0.00855\sym{***}&     0.00928\sym{***}\\
+                    &   (0.00184)         &   (0.00195)         &   (0.00188)         &   (0.00184)         \\
+\addlinespace
+Market Return Squared&    -0.00037         &    -0.00041         &    -0.00034         &    -0.00042         \\
+                    &   (0.00027)         &   (0.00028)         &   (0.00027)         &   (0.00027)         \\
+\addlinespace
+Stringency Index    &     0.04142\sym{***}&                     &                     &                     \\
+                    &   (0.00833)         &                     &                     &                     \\
+\addlinespace
+Vaccination Rate    &    -0.00017\sym{***}&    -0.00015\sym{***}&    -0.00015\sym{***}&    -0.00016\sym{***}\\
+                    &   (0.00004)         &   (0.00004)         &   (0.00004)         &   (0.00004)         \\
+\addlinespace
+COVID-19 Deaths 7-Day Rolling Average&     0.00000         &    -0.00001\sym{**} &    -0.00001\sym{**} &    -0.00001\sym{**} \\
+                    &   (0.00000)         &   (0.00000)         &   (0.00000)         &   (0.00000)         \\
+\addlinespace
+Dummy variable = 1 if stringency fall within upper 25%=0 $\times$ Market Return Squared&                     &     0.00000         &                     &                     \\
+                    &                     &         (.)         &                     &                     \\
+\addlinespace
+Dummy variable = 1 if stringency fall within upper 25%=1 $\times$ Market Return Squared&                     &     0.00080\sym{**} &                     &                     \\
+                    &                     &   (0.00036)         &                     &                     \\
+\addlinespace
+Dummy variable = 1 if stringency fall within upper 10%=0 $\times$ Market Return Squared&                     &                     &     0.00000         &                     \\
+                    &                     &                     &         (.)         &                     \\
+\addlinespace
+Dummy variable = 1 if stringency fall within upper 10%=1 $\times$ Market Return Squared&                     &                     &     0.00008         &                     \\
+                    &                     &                     &   (0.00053)         &                     \\
+\addlinespace
+Dummy variable = 1 if stringency fall within upper 5%=0 $\times$ Market Return Squared&                     &                     &                     &     0.00000         \\
+                    &                     &                     &                     &         (.)         \\
+\addlinespace
+Dummy variable = 1 if stringency fall within upper 5%=1 $\times$ Market Return Squared&                     &                     &                     &    -0.00666\sym{***}\\
+                    &                     &                     &                     &   (0.00176)         \\
+\addlinespace
+Constant            &     0.09825\sym{***}&     0.12722\sym{***}&     0.12690\sym{***}&     0.12699\sym{***}\\
+                    &   (0.00561)         &   (0.00272)         &   (0.00271)         &   (0.00274)         \\
+\midrule
+Observations        &         732         &         732         &         732         &         732         \\
+\bottomrule
+\multicolumn{5}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{5}{l}{\footnotesize First line}\\
+\multicolumn{5}{l}{\footnotesize Second line}\\
+\multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

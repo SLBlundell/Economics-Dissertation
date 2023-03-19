@@ -1,54 +1,54 @@
 \begin{table}[htbp]\centering
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \caption{Regression Results \label{reg1}}
-\begin{tabular}{l*{6}{c}}
+\begin{tabular}{l*{5}{c}}
 \toprule
-                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         \\
 \midrule
-Absolute Market Return&       0.008\sym{***}&       0.181\sym{***}&       0.163\sym{***}&       0.182\sym{***}&       0.194\sym{***}&       0.184\sym{***}\\
-                    &     (0.002)         &     (0.024)         &     (0.024)         &     (0.024)         &     (0.024)         &     (0.024)         \\
+Absolute Market Return&     0.18149\sym{***}&     0.16320\sym{***}&     0.18165\sym{***}&     0.19437\sym{***}&     0.18379\sym{***}\\
+                    &   (0.02388)         &   (0.02377)         &   (0.02423)         &   (0.02385)         &   (0.02425)         \\
 \addlinespace
-Market Return Squared&      -0.000         &      -0.010\sym{**} &      -0.011\sym{***}&      -0.010\sym{**} &      -0.011\sym{**} &      -0.010\sym{**} \\
-                    &     (0.000)         &     (0.005)         &     (0.003)         &     (0.004)         &     (0.004)         &     (0.005)         \\
+Market Return Squared&    -0.01026\sym{**} &    -0.01128\sym{***}&    -0.00993\sym{**} &    -0.01125\sym{**} &    -0.01020\sym{**} \\
+                    &   (0.00451)         &   (0.00322)         &   (0.00436)         &   (0.00440)         &   (0.00466)         \\
 \addlinespace
-Stringency Index    &       0.041\sym{***}&       0.454\sym{***}&                     &                     &                     &                     \\
-                    &     (0.008)         &     (0.108)         &                     &                     &                     &                     \\
+Stringency Index    &     0.45402\sym{***}&                     &                     &                     &                     \\
+                    &   (0.10792)         &                     &                     &                     &                     \\
 \addlinespace
-Vaccination Rate    &      -0.000\sym{***}&      -0.002\sym{***}&      -0.002\sym{***}&      -0.002\sym{***}&      -0.002\sym{***}&      -0.002\sym{***}\\
-                    &     (0.000)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         \\
+Vaccination Rate    &    -0.00175\sym{***}&    -0.00151\sym{***}&    -0.00158\sym{***}&    -0.00168\sym{***}&    -0.00166\sym{***}\\
+                    &   (0.00051)         &   (0.00051)         &   (0.00051)         &   (0.00051)         &   (0.00050)         \\
 \addlinespace
-COVID-19 Deaths 7-Day Rolling Average&       0.000         &       0.000         &      -0.000\sym{**} &      -0.000\sym{**} &      -0.000\sym{**} &      -0.000         \\
-                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+COVID-19 Deaths 7-Day Rolling Average&     0.00002         &    -0.00008\sym{**} &    -0.00008\sym{**} &    -0.00008\sym{**} &    -0.00002         \\
+                    &   (0.00004)         &   (0.00003)         &   (0.00003)         &   (0.00003)         &   (0.00003)         \\
 \addlinespace
-Dummy variable = 1 if stringency fall within upper 25%=0 $\times$ Market Return Squared&                     &                     &       0.000         &                     &                     &                     \\
-                    &                     &                     &         (.)         &                     &                     &                     \\
+Dummy variable = 1 if stringency fall within upper 25%=0 $\times$ Market Return Squared&                     &     0.00000         &                     &                     &                     \\
+                    &                     &         (.)         &                     &                     &                     \\
 \addlinespace
-Dummy variable = 1 if stringency fall within upper 25%=1 $\times$ Market Return Squared&                     &                     &       0.015\sym{***}&                     &                     &                     \\
-                    &                     &                     &     (0.005)         &                     &                     &                     \\
+Dummy variable = 1 if stringency fall within upper 25%=1 $\times$ Market Return Squared&                     &     0.01513\sym{***}&                     &                     &                     \\
+                    &                     &   (0.00508)         &                     &                     &                     \\
 \addlinespace
-Dummy variable = 1 if stringency fall within upper 10%=0 $\times$ Market Return Squared&                     &                     &                     &       0.000         &                     &                     \\
-                    &                     &                     &                     &         (.)         &                     &                     \\
+Dummy variable = 1 if stringency fall within upper 10%=0 $\times$ Market Return Squared&                     &                     &     0.00000         &                     &                     \\
+                    &                     &                     &         (.)         &                     &                     \\
 \addlinespace
-Dummy variable = 1 if stringency fall within upper 10%=1 $\times$ Market Return Squared&                     &                     &                     &       0.003         &                     &                     \\
-                    &                     &                     &                     &     (0.008)         &                     &                     \\
+Dummy variable = 1 if stringency fall within upper 10%=1 $\times$ Market Return Squared&                     &                     &     0.00257         &                     &                     \\
+                    &                     &                     &   (0.00769)         &                     &                     \\
 \addlinespace
-Dummy variable = 1 if stringency fall within upper 5%=0 $\times$ Market Return Squared&                     &                     &                     &                     &       0.000         &                     \\
-                    &                     &                     &                     &                     &         (.)         &                     \\
+Dummy variable = 1 if stringency fall within upper 5%=0 $\times$ Market Return Squared&                     &                     &                     &     0.00000         &                     \\
+                    &                     &                     &                     &         (.)         &                     \\
 \addlinespace
-Dummy variable = 1 if stringency fall within upper 5%=1 $\times$ Market Return Squared&                     &                     &                     &                     &      -0.106\sym{***}&                     \\
-                    &                     &                     &                     &                     &     (0.032)         &                     \\
+Dummy variable = 1 if stringency fall within upper 5%=1 $\times$ Market Return Squared&                     &                     &                     &    -0.10644\sym{***}&                     \\
+                    &                     &                     &                     &   (0.03225)         &                     \\
 \addlinespace
-C6: Shelter in Place Indicator&                     &                     &                     &                     &                     &       0.057\sym{***}\\
-                    &                     &                     &                     &                     &                     &     (0.019)         \\
+C6: Shelter in Place Indicator&                     &                     &                     &                     &     0.05750\sym{***}\\
+                    &                     &                     &                     &                     &   (0.01942)         \\
 \addlinespace
-Constant            &       0.098\sym{***}&       1.124\sym{***}&       1.445\sym{***}&       1.439\sym{***}&       1.440\sym{***}&       1.299\sym{***}\\
-                    &     (0.006)         &     (0.071)         &     (0.033)         &     (0.033)         &     (0.034)         &     (0.054)         \\
+Constant            &     1.12443\sym{***}&     1.44496\sym{***}&     1.43926\sym{***}&     1.44012\sym{***}&     1.29932\sym{***}\\
+                    &   (0.07134)         &   (0.03333)         &   (0.03313)         &   (0.03391)         &   (0.05369)         \\
 \midrule
-Observations        &         732         &         732         &         732         &         732         &         732         &         732         \\
+Observations        &         732         &         732         &         732         &         732         &         732         \\
 \bottomrule
-\multicolumn{7}{l}{\footnotesize Standard errors in parentheses}\\
-\multicolumn{7}{l}{\footnotesize First line}\\
-\multicolumn{7}{l}{\footnotesize Second line}\\
-\multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{6}{l}{\footnotesize First line}\\
+\multicolumn{6}{l}{\footnotesize Second line}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
 \end{tabular}
 \end{table}
