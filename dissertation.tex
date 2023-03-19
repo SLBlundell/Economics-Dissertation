@@ -4,7 +4,6 @@
 \usepackage{setspace}
 \doublespacing
 \usepackage{graphicx} % Required for inserting images
-\usepackage[margin=1.5cm]{geometry}
 
 \usepackage{natbib}
 
@@ -22,6 +21,24 @@
 \usepackage{titlesec}
 \titleformat{\subsubsection}[runin]{\normalsize\bfseries}{\thesubsection}{5pt}{}
 
+\usepackage{amssymb, amsfonts, amsmath}
+\usepackage{bm}
+\usepackage[margin=1.5cm]{geometry} % full-width
+    \topskip        =   20pt
+    \parskip        =   10pt
+    \parindent      =   0 pt
+    \baselineskip   =   15pt
+
+
+\usepackage{adjustbox}              % resizing
+\usepackage{caption}                % to reset the cations etc 
+\usepackage{rotating}               % for the sidewaystable
+    \numberwithin{table}{section}   % reset the Table numbering for each section
+\usepackage{booktabs}               % neatly formatting lines
+\usepackage{dcolumn}                % aligning decimals
+    \newcolumntype{d}[1]{D{.}{.}{#1}}
+
+\newcommand{\sym}[1]{\rlap{#1}} % for the stars
 
 \begin{document}
 
@@ -249,7 +266,11 @@ In order to calculate how many levels of autocorrelations we take into account, 
 
 \subsection{Empirical Analysis and Results}
 
-
+\begin{table}[!htbp]
+    \caption{Summary statistics} \label{tab:table1}
+    \centering
+    \input{TeX_files/SummaryTable}
+\end{table}
 
 \break
 
