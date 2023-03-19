@@ -1,8 +1,8 @@
-----------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- opened on:  19 Mar 2023, 19:55:58
+ opened on:  19 Mar 2023, 20:55:34
 
 . 
 . cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED"
@@ -49,7 +49,7 @@ C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\Univer
 
 . gen D25Upper = 0
 
-. label var D25Upper "Dummy variable = 1 if stringency fall within upper 25%"
+. label var D25Upper "S upper 25%"
 
 . replace D25Upper = 1 if stringencyindex_weightedaverage >= `PL75'
 (295 real changes made)
@@ -61,7 +61,7 @@ C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\Univer
 
 . gen D10Upper = 0
 
-. label var D10Upper "Dummy variable = 1 if stringency fall within upper 10%"
+. label var D10Upper "S upper 10%"
 
 . replace D10Upper = 1 if stringencyindex_weightedaverage >= `PL90'
 (158 real changes made)
@@ -73,7 +73,7 @@ C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\Univer
 
 . gen D5Upper = 0
 
-. label var D5Upper "Dummy variable = 1 if stringency fall within upper 5%"
+. label var D5Upper "S upper 5%"
 
 . replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
 (46 real changes made)
@@ -95,8 +95,7 @@ Time variable: time, 2 to 733
 . 
 . // Summary Stats //
 . 
-. estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(
-> stat) stat(sum mean sd min max n)
+. estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
 
 Summary statistics: sum mean sd min max count
      for variables: csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths
@@ -111,8 +110,7 @@ c6e_stayat~s |      1771   2.419399   .9603953          0          3        732
 population~d |  28667.29   39.16296   42.22697          0      89.35        732 
 rolling_de~s |  44556.29   60.86924   291.1154          0       3964        732 
 
-. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) 
-> max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
+. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
 (output written to .\TeX_files\SummaryTable.tex)
 
 . 
@@ -300,22 +298,22 @@ Vaccination Rate         -0.00175***     -0.00151***     -0.00158***     -0.0016
 COVID-19 Deaths 7-~v      0.00002        -0.00008**      -0.00008**      -0.00008**      -0.00002   
                         (0.00004)       (0.00003)       (0.00003)       (0.00003)       (0.00003)   
 
-Dummy variable = 1~y                      0.00000                                                   
+S upper 25%=0 # Ma~q                      0.00000                                                   
                                               (.)                                                   
 
-Dummy variable = 1~y                      0.01513***                                                
+S upper 25%=1 # Ma~q                      0.01513***                                                
                                         (0.00508)                                                   
 
-Dummy variable = 1~y                                      0.00000                                   
+S upper 10%=0 # Ma~q                                      0.00000                                   
                                                               (.)                                   
 
-Dummy variable = 1~y                                      0.00257                                   
+S upper 10%=1 # Ma~q                                      0.00257                                   
                                                         (0.00769)                                   
 
-Dummy variable = 1~y                                                      0.00000                   
+S upper 5%=0 # Mar~u                                                      0.00000                   
                                                                               (.)                   
 
-Dummy variable = 1~y                                                     -0.10644***                
+S upper 5%=1 # Mar~u                                                     -0.10644***                
                                                                         (0.03225)                   
 
 C6: Shelter in Pla~r                                                                      0.05750***
@@ -329,8 +327,7 @@ Observations                  732             732             732             73
 Standard errors in parentheses
 * p<0.10, ** p<0.05, *** p<0.01
 
-. esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Re
-> gression Results \label{reg1}") addnotes("First line" "Second line")
+. esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Regression Results \label{reg1}") addnotes("First line" "Second line")
 (output written to ./TeX_files/Regressions_1.tex)
 
 . est clear
@@ -442,22 +439,22 @@ Vaccination Rate         -0.00017***     -0.00015***     -0.00015***     -0.0001
 COVID-19 Deaths 7-~v      0.00000        -0.00001**      -0.00001**      -0.00001** 
                         (0.00000)       (0.00000)       (0.00000)       (0.00000)   
 
-Dummy variable = 1~y                      0.00000                                   
+S upper 25%=0 # Ma~q                      0.00000                                   
                                               (.)                                   
 
-Dummy variable = 1~y                      0.00080**                                 
+S upper 25%=1 # Ma~q                      0.00080**                                 
                                         (0.00036)                                   
 
-Dummy variable = 1~y                                      0.00000                   
+S upper 10%=0 # Ma~q                                      0.00000                   
                                                               (.)                   
 
-Dummy variable = 1~y                                      0.00008                   
+S upper 10%=1 # Ma~q                                      0.00008                   
                                                         (0.00053)                   
 
-Dummy variable = 1~y                                                      0.00000   
+S upper 5%=0 # Mar~u                                                      0.00000   
                                                                               (.)   
 
-Dummy variable = 1~y                                                     -0.00666***
+S upper 5%=1 # Mar~u                                                     -0.00666***
                                                                         (0.00176)   
 
 Constant                  0.09825***      0.12722***      0.12690***      0.12699***
@@ -468,9 +465,7 @@ Observations                  732             732             732             73
 Standard errors in parentheses
 * p<0.10, ** p<0.05, *** p<0.01
 
-. esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Ro
-> bustness Results \label{reg2}") addnotes("First line" "Second line")
-(file ./TeX_files/Regressions_2.tex not found)
+. esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Robustness Results \label{reg2}") addnotes("First line" "Second line")
 (output written to ./TeX_files/Regressions_2.tex)
 
 . est clear
@@ -480,5 +475,5 @@ Standard errors in parentheses
       name:  <unnamed>
        log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- closed on:  19 Mar 2023, 19:56:03
-----------------------------------------------------------------------------------------------------------------------------------
+ closed on:  19 Mar 2023, 20:55:36
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
