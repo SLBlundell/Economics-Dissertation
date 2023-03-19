@@ -1,18 +1,82 @@
------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-
-> 2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- opened on:  11 Mar 2023, 22:20:51
+ opened on:  19 Mar 2023, 16:06:54
 
 . 
-. cd data
-C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data
+. cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED"
+C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED
 
 . 
-. import delimited "spec_1_stringency_CSSD_CSAD_updated_csi"
+. import delimited "./data/spec_1.csv"
 (encoding automatically selected: ISO-8859-1)
-(6 vars, 733 obs)
+(15 vars, 733 obs)
+
+. 
+. replace stringencyindex_weightedaverage = 0 if missing(stringencyindex_weightedaverage) 
+(0 real changes made)
+
+. 
+. gen r_m_sqr=r_m^2
+
+. gen r_m_abs=abs(r_m)
+
+. replace stringencyindex_weightedaverage=stringencyindex_weightedaverage/100
+(714 real changes made)
+
+. 
+. la var r_m "Market Return"
+
+. la var stringencyindex_weightedaverage "Stringency Index"
+
+. la var c6e_stayathomerequirements "C6: Shelter in Place Indicator"
+
+. la var populationvaccinated "Vaccination Rate"
+
+. la var rolling_deaths "COVID-19 Deaths 7-Day Rolling Average"
+
+. la var cases "COVID-19 Daily Cases"
+
+. la var r_m_sqr "Market Return Squared"
+
+. la var r_m_abs "Absolute Market Return"
+
+. 
+. tempvar PL75
+
+. egen `PL75' = pctile(stringencyindex_weightedaverage), p(75)
+
+. gen D25Upper = 0
+
+. label var D25Upper "Dummy variable = 1 if stringency fall within upper 25%"
+
+. replace D25Upper = 1 if stringencyindex_weightedaverage >= `PL75'
+(295 real changes made)
+
+. 
+. tempvar PL90
+
+. egen `PL90' = pctile(stringencyindex_weightedaverage), p(90)
+
+. gen D10Upper = 0
+
+. label var D10Upper "Dummy variable = 1 if stringency fall within upper 10%"
+
+. replace D10Upper = 1 if stringencyindex_weightedaverage >= `PL90'
+(158 real changes made)
+
+. 
+. tempvar PL95
+
+. egen `PL95' = pctile(stringencyindex_weightedaverage), p(95)
+
+. gen D5Upper = 0
+
+. label var D5Upper "Dummy variable = 1 if stringency fall within upper 5%"
+
+. replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
+(46 real changes made)
 
 . 
 . sort date
@@ -23,119 +87,71 @@ C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\Univer
 (1 observation deleted)
 
 . 
-. replace stringency = 0 if missing(stringency) 
-(0 real changes made)
-
-. 
-. tempvar PL75
-
-. egen `PL75' = pctile(stringency), p(75)
-
-. gen D25Upper = 0
-
-. label var D25Upper "Dummy variable = 1 if stringency fall within upper 25%"
-
-. replace D25Upper = 1 if stringency >= `PL75'
-(295 real changes made)
-
-. 
-. tempvar PL90
-
-. egen `PL90' = pctile(stringency), p(90)
-
-. gen D10Upper = 0
-
-. label var D10Upper "Dummy variable = 1 if stringency fall within upper 10%"
-
-. replace D10Upper = 1 if stringency >= `PL90'
-(158 real changes made)
-
-. 
-. tempvar PL95
-
-. egen `PL95' = pctile(stringency), p(95)
-
-. gen D5Upper = 0
-
-. label var D5Upper "Dummy variable = 1 if stringency fall within upper 5%"
-
-. replace D5Upper = 1 if stringency >= `PL95'
-(46 real changes made)
-
-. 
-. gen r_m_sqr=r_m^2
-
-. 
 . tsset time
 
 Time variable: time, 2 to 733
         Delta: 1 unit
 
 . 
-. estpost sum r_m - r_m_sqr
+. // Summary Stats //
+. 
+. estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
 
-             |  e(count)   e(sum_w)    e(mean)     e(Var)      e(sd)     e(min)     e(max)     e(sum) 
--------------+----------------------------------------------------------------------------------------
-         r_m |       732        732  -.0205091   1.520264    1.23299  -8.977271   5.395286  -15.01269 
-        csad |       732        732   1.516546   .1293076   .3595937   .7320971    2.92287   1110.111 
-        cssd |       732        732   .1275852    .000829   .0287925   .0592159     .25052   93.39233 
-  stringency |       732        732   69.82656   200.9026   14.17401          0      81.94   51113.04 
-        time |       732        732      367.5      44713   211.4545          2        733     269010 
-    __000000 |       732        732      78.24          0          0      78.24      78.24   57271.68 
-    D25Upper |       732        732   .4030055   .2409212   .4908372          0          1        295 
-    __000001 |       732        732      79.17          0          0      79.17      79.17   57952.44 
-    D10Upper |       732        732    .215847   .1694886   .4116899          0          1        158 
-    __000002 |       732        732      81.94          0          0      81.94      81.94   59980.08 
-     D5Upper |       732        732   .0628415    .058973   .2428436          0          1         46 
-     r_m_sqr |       732        732   1.518607    17.3855   4.169592   1.29e-06   80.59139   1111.621 
+Summary statistics: sum mean sd min max count
+     for variables: csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths
+
+             |    e(sum)    e(mean)      e(sd)     e(min)     e(max)   e(count) 
+-------------+------------------------------------------------------------------
+        csad |  1110.111   1.516546   .3595937   .7320971    2.92287        732 
+        cssd |  93.39233   .1275852   .0287925   .0592159     .25052        732 
+         r_m | -15.01269  -.0205091    1.23299  -8.977271   5.395286        732 
+stringency~e |  511.1304   .6982656   .1417401          0      .8194        732 
+c6e_stayat~s |      1771   2.419399   .9603953          0          3        732 
+population~d |  28667.29   39.16296   42.22697          0      89.35        732 
+rolling_de~s |  44556.29   60.86924   291.1154          0       3964        732 
+
+. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
+(output written to .\TeX_files\SummaryTable.tex)
 
 . 
-. quietly reg cssd r_m r_m_sqr stringency
+. // t-tests //
+. 
+. quietly reg csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths
 
-. estat bgodfrey, lags(1 2:30)
+. estat bgodfrey, lags(1 2:20)
 
 Breusch–Godfrey LM test for autocorrelation
 ---------------------------------------------------------------------------
     lags(p)  |          chi2               df                 Prob > chi2
 -------------+-------------------------------------------------------------
-       1     |        150.953               1                   0.0000
-       2     |        198.597               2                   0.0000
-       3     |        223.032               3                   0.0000
-       4     |        232.522               4                   0.0000
-       5     |        233.990               5                   0.0000
-       6     |        234.241               6                   0.0000
-       7     |        235.753               7                   0.0000
-       8     |        236.156               8                   0.0000
-       9     |        237.254               9                   0.0000
-      10     |        239.629              10                   0.0000
-      11     |        239.700              11                   0.0000
-      12     |        241.615              12                   0.0000
-      13     |        241.663              13                   0.0000
-      14     |        242.293              14                   0.0000
-      15     |        243.352              15                   0.0000
-      16     |        244.150              16                   0.0000
-      17     |        246.898              17                   0.0000
-      18     |        248.401              18                   0.0000
-      19     |        248.522              19                   0.0000
-      20     |        249.569              20                   0.0000
-      21     |        254.213              21                   0.0000
-      22     |        254.216              22                   0.0000
-      23     |        254.610              23                   0.0000
-      24     |        255.030              24                   0.0000
-      25     |        255.030              25                   0.0000
-      26     |        259.830              26                   0.0000
-      27     |        260.047              27                   0.0000
-      28     |        260.060              28                   0.0000
-      29     |        260.643              29                   0.0000
-      30     |        260.675              30                   0.0000
+       1     |        225.698               1                   0.0000
+       2     |        276.565               2                   0.0000
+       3     |        284.194               3                   0.0000
+       4     |        289.248               4                   0.0000
+       5     |        291.777               5                   0.0000
+       6     |        291.972               6                   0.0000
+       7     |        292.245               7                   0.0000
+       8     |        294.001               8                   0.0000
+       9     |        294.202               9                   0.0000
+      10     |        298.130              10                   0.0000
+      11     |        298.184              11                   0.0000
+      12     |        298.204              12                   0.0000
+      13     |        298.259              13                   0.0000
+      14     |        299.466              14                   0.0000
+      15     |        299.914              15                   0.0000
+      16     |        300.080              16                   0.0000
+      17     |        300.287              17                   0.0000
+      18     |        300.347              18                   0.0000
+      19     |        300.898              19                   0.0000
+      20     |        302.769              20                   0.0000
 ---------------------------------------------------------------------------
                         H0: no serial correlation
 
 . 
-. dfuller cssd
+. dfuller csad
 
 Dickey–Fuller test for unit root          Number of obs  = 731
-Variable: cssd                            Number of lags =   0
+Variable: csad                            Number of lags =   0
 
 H0: Random walk without drift, d = 0
 
@@ -143,171 +159,201 @@ H0: Random walk without drift, d = 0
                    Test      -------- critical value ---------
               statistic           1%           5%          10%
 --------------------------------------------------------------
- Z(t)           -15.505       -3.430       -2.860       -2.570
+ Z(t)           -12.764       -3.430       -2.860       -2.570
 --------------------------------------------------------------
 MacKinnon approximate p-value for Z(t) = 0.0000.
 
 . 
-. newey cssd r_m r_m_sqr stringency, lag(5)
+. // Regressions //
+. 
+. newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  3,       728) =      11.17
+Maximum lag = 5                                 F(  5,       726) =      26.34
                                                 Prob > F          =     0.0000
 
-------------------------------------------------------------------------------
-             |             Newey–West
-        cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-         r_m |   .0007975   .0008397     0.95   0.343    -.0008511    .0024461
-     r_m_sqr |    .001255   .0003404     3.69   0.000     .0005866    .0019233
-  stringency |   .0003841   .0000814     4.72   0.000     .0002243    .0005438
-       _cons |   .0988787    .005632    17.56   0.000     .0878218    .1099357
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+                                |             Newey–West
+                           cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------------------------+----------------------------------------------------------------
+                        r_m_abs |   .0084072   .0018367     4.58   0.000     .0048013    .0120131
+                        r_m_sqr |  -.0003743   .0002693    -1.39   0.165    -.0009029    .0001543
+stringencyindex_weightedaverage |   .0414164     .00833     4.97   0.000     .0250625    .0577702
+           populationvaccinated |  -.0001658    .000039    -4.25   0.000    -.0002424   -.0000892
+                 rolling_deaths |   2.67e-06   3.10e-06     0.86   0.388    -3.41e-06    8.75e-06
+                          _cons |   .0982468   .0056149    17.50   0.000     .0872234    .1092702
+-------------------------------------------------------------------------------------------------
 
 . 
-. newey cssd r_m c.r_m_sqr##D25Upper, lag(5)
+. newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  4,       727) =      20.89
+Maximum lag = 5                                 F(  5,       726) =      26.67
                                                 Prob > F          =     0.0000
 
-------------------------------------------------------------------------------------
-                   |             Newey–West
-              cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
--------------------+----------------------------------------------------------------
-               r_m |   .0006295   .0007841     0.80   0.422    -.0009098    .0021688
-           r_m_sqr |     .00096   .0002306     4.16   0.000     .0005072    .0014128
-        1.D25Upper |   .0074348   .0037533     1.98   0.048     .0000661    .0148035
-                   |
-D25Upper#c.r_m_sqr |
-                1  |   .0009208    .000342     2.69   0.007     .0002495    .0015921
-                   |
-             _cons |   .1224959   .0024602    49.79   0.000      .117666    .1273257
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .0075311   .0019507     3.86   0.000     .0037013    .0113608
+             r_m_sqr |  -.0004105   .0002776    -1.48   0.140    -.0009554    .0001344
+                     |
+  D25Upper#c.r_m_sqr |
+                  1  |   .0007977   .0003638     2.19   0.029     .0000835    .0015119
+                     |
+populationvaccinated |  -.0001468   .0000398    -3.69   0.000     -.000225   -.0000686
+      rolling_deaths |  -6.23e-06   2.93e-06    -2.13   0.034     -.000012   -4.85e-07
+               _cons |   .1272204   .0027241    46.70   0.000     .1218724    .1325684
+--------------------------------------------------------------------------------------
 
-. newey cssd r_m c.r_m_sqr##D10Upper, lag(5)
+. newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  4,       727) =      13.36
+Maximum lag = 5                                 F(  5,       726) =      22.23
                                                 Prob > F          =     0.0000
 
-------------------------------------------------------------------------------------
-                   |             Newey–West
-              cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
--------------------+----------------------------------------------------------------
-               r_m |    .001035   .0008818     1.17   0.241    -.0006962    .0027662
-           r_m_sqr |   .0011876   .0003502     3.39   0.001        .0005    .0018751
-        1.D10Upper |  -.0045609   .0037577    -1.21   0.225    -.0119381    .0028163
-                   |
-D10Upper#c.r_m_sqr |
-                1  |   .0009293     .00048     1.94   0.053    -.0000131    .0018718
-                   |
-             _cons |   .1264206   .0023478    53.85   0.000     .1218113    .1310299
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .0085475   .0018818     4.54   0.000      .004853     .012242
+             r_m_sqr |  -.0003368   .0002681    -1.26   0.209    -.0008633    .0001896
+                     |
+  D10Upper#c.r_m_sqr |
+                  1  |   .0000828   .0005347     0.15   0.877     -.000967    .0011325
+                     |
+populationvaccinated |  -.0001503   .0000398    -3.78   0.000    -.0002284   -.0000723
+      rolling_deaths |  -6.32e-06   2.97e-06    -2.13   0.034    -.0000121   -4.91e-07
+               _cons |   .1268956   .0027098    46.83   0.000     .1215756    .1322156
+--------------------------------------------------------------------------------------
 
-. newey cssd r_m c.r_m_sqr##D5Upper, lag(5)
+. newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  4,       727) =       5.25
-                                                Prob > F          =     0.0004
+Maximum lag = 5                                 F(  5,       726) =      23.33
+                                                Prob > F          =     0.0000
 
------------------------------------------------------------------------------------
-                  |             Newey–West
-             cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
-------------------+----------------------------------------------------------------
-              r_m |   .0010164   .0008641     1.18   0.240      -.00068    .0027128
-          r_m_sqr |   .0013545   .0003674     3.69   0.000     .0006332    .0020759
-        1.D5Upper |  -.0017539   .0061527    -0.29   0.776     -.013833    .0103253
-                  |
-D5Upper#c.r_m_sqr |
-               1  |  -.0028612   .0012971    -2.21   0.028    -.0054078   -.0003147
-                  |
-            _cons |   .1257921   .0021125    59.55   0.000     .1216447    .1299394
------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                cssd | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .0092783   .0018424     5.04   0.000     .0056613    .0128952
+             r_m_sqr |  -.0004233   .0002691    -1.57   0.116    -.0009516    .0001049
+                     |
+   D5Upper#c.r_m_sqr |
+                  1  |  -.0066579   .0017648    -3.77   0.000    -.0101225   -.0031933
+                     |
+populationvaccinated |  -.0001568   .0000401    -3.91   0.000    -.0002355   -.0000781
+      rolling_deaths |  -6.34e-06   2.99e-06    -2.12   0.034    -.0000122   -4.71e-07
+               _cons |   .1269856   .0027368    46.40   0.000     .1216125    .1323586
+--------------------------------------------------------------------------------------
 
 . 
-. newey csad r_m r_m_sqr stringency, lag(5)
+. newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  3,       728) =       9.55
+Maximum lag = 5                                 F(  5,       726) =      28.72
                                                 Prob > F          =     0.0000
 
-------------------------------------------------------------------------------
-             |             Newey–West
-        csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-         r_m |   .0167532   .0125216     1.34   0.181    -.0078295     .041336
-     r_m_sqr |   .0240484   .0076895     3.13   0.002     .0089521    .0391446
-  stringency |   .0043471   .0010046     4.33   0.000     .0023749    .0063193
-       _cons |   1.176826   .0683877    17.21   0.000     1.042565    1.311086
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+                                |             Newey–West
+                           csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+--------------------------------+----------------------------------------------------------------
+                        r_m_abs |   .1814921   .0238801     7.60   0.000     .1346098    .2283743
+                        r_m_sqr |  -.0102624   .0045078    -2.28   0.023    -.0191123   -.0014124
+stringencyindex_weightedaverage |   .4540178   .1079195     4.21   0.000     .2421462    .6658894
+           populationvaccinated |  -.0017465   .0005114    -3.42   0.001    -.0027506   -.0007425
+                 rolling_deaths |   .0000178    .000037     0.48   0.631    -.0000549    .0000905
+                          _cons |   1.124429   .0713373    15.76   0.000     .9843765    1.264481
+-------------------------------------------------------------------------------------------------
 
 . 
-. newey csad r_m c.r_m_sqr##D25Upper, lag(5)
+. newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  4,       727) =      40.61
+Maximum lag = 5                                 F(  5,       726) =      51.44
                                                 Prob > F          =     0.0000
 
-------------------------------------------------------------------------------------
-                   |             Newey–West
-              csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
--------------------+----------------------------------------------------------------
-               r_m |   .0130053   .0106198     1.22   0.221    -.0078439    .0338545
-           r_m_sqr |   .0162981   .0052826     3.09   0.002     .0059271     .026669
-        1.D25Upper |   .0601081   .0498203     1.21   0.228    -.0377007     .157917
-                   |
-D25Upper#c.r_m_sqr |
-                1  |   .0233126   .0063951     3.65   0.000     .0107576    .0358677
-                   |
-             _cons |   1.451432   .0321524    45.14   0.000     1.388309    1.514554
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .1631959   .0237664     6.87   0.000     .1165367     .209855
+             r_m_sqr |  -.0112793   .0032223    -3.50   0.000    -.0176055   -.0049532
+                     |
+  D25Upper#c.r_m_sqr |
+                  1  |   .0151334    .005083     2.98   0.003     .0051543    .0251126
+                     |
+populationvaccinated |  -.0015114   .0005107    -2.96   0.003     -.002514   -.0005089
+      rolling_deaths |   -.000079   .0000327    -2.42   0.016    -.0001431   -.0000148
+               _cons |   1.444957   .0333305    43.35   0.000     1.379521    1.510393
+--------------------------------------------------------------------------------------
 
-. newey csad r_m c.r_m_sqr##D10Upper, lag(5)
+. newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  4,       727) =      27.73
+Maximum lag = 5                                 F(  5,       726) =      26.64
                                                 Prob > F          =     0.0000
 
-------------------------------------------------------------------------------------
-                   |             Newey–West
-              csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
--------------------+----------------------------------------------------------------
-               r_m |   .0203563   .0132319     1.54   0.124    -.0056211    .0463336
-           r_m_sqr |    .021595   .0076933     2.81   0.005     .0064912    .0366988
-        1.D10Upper |  -.0804083   .0476466    -1.69   0.092    -.1739497    .0131331
-                   |
-D10Upper#c.r_m_sqr |
-                1  |   .0203261     .00904     2.25   0.025     .0025785    .0380737
-                   |
-             _cons |   1.493502   .0314267    47.52   0.000     1.431804      1.5552
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .1816494   .0242269     7.50   0.000     .1340863    .2292126
+             r_m_sqr |  -.0099287   .0043588    -2.28   0.023    -.0184861   -.0013714
+                     |
+  D10Upper#c.r_m_sqr |
+                  1  |   .0025682   .0076866     0.33   0.738    -.0125224    .0176588
+                     |
+populationvaccinated |    -.00158   .0005113    -3.09   0.002    -.0025838   -.0005762
+      rolling_deaths |  -.0000806   .0000335    -2.41   0.016    -.0001463   -.0000148
+               _cons |   1.439261   .0331323    43.44   0.000     1.374215    1.504308
+--------------------------------------------------------------------------------------
 
-. newey csad r_m c.r_m_sqr##D5Upper, lag(5)
+. newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        732
-Maximum lag = 5                                 F(  4,       727) =       5.05
-                                                Prob > F          =     0.0005
+Maximum lag = 5                                 F(  5,       726) =      27.98
+                                                Prob > F          =     0.0000
 
------------------------------------------------------------------------------------
-                  |             Newey–West
-             csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
-------------------+----------------------------------------------------------------
-              r_m |   .0189134   .0128756     1.47   0.142    -.0063645    .0441912
-          r_m_sqr |   .0248658   .0079488     3.13   0.002     .0092604    .0404711
-        1.D5Upper |  -.1085376   .0636912    -1.70   0.089    -.2335783     .016503
-                  |
-D5Upper#c.r_m_sqr |
-               1  |  -.0254674   .0198251    -1.28   0.199    -.0643886    .0134538
-                  |
-            _cons |   1.487175   .0286768    51.86   0.000     1.430876    1.543475
------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
+                     |             Newey–West
+                csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------+----------------------------------------------------------------
+             r_m_abs |   .1943675   .0238459     8.15   0.000     .1475523    .2411827
+             r_m_sqr |   -.011254   .0044035    -2.56   0.011    -.0198992   -.0026088
+                     |
+   D5Upper#c.r_m_sqr |
+                  1  |  -.1064428   .0322489    -3.30   0.001    -.1697551   -.0431305
+                     |
+populationvaccinated |  -.0016804   .0005145    -3.27   0.001    -.0026904   -.0006703
+      rolling_deaths |   -.000081   .0000339    -2.39   0.017    -.0001475   -.0000145
+               _cons |   1.440117   .0339131    42.46   0.000     1.373538    1.506697
+--------------------------------------------------------------------------------------
+
+. 
+. newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
+
+Regression with Newey–West standard errors      Number of obs     =        732
+Maximum lag = 5                                 F(  5,       726) =      30.80
+                                                Prob > F          =     0.0000
+
+--------------------------------------------------------------------------------------------
+                           |             Newey–West
+                      csad | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+---------------------------+----------------------------------------------------------------
+                   r_m_abs |   .1837871   .0242459     7.58   0.000     .1361867    .2313875
+                   r_m_sqr |  -.0101993   .0046585    -2.19   0.029    -.0193451   -.0010535
+c6e_stayathomerequirements |   .0574984   .0194221     2.96   0.003     .0193683    .0956285
+      populationvaccinated |  -.0016591   .0005028    -3.30   0.001    -.0026462    -.000672
+            rolling_deaths |  -.0000231   .0000269    -0.86   0.390    -.0000759    .0000296
+                     _cons |   1.299315   .0536884    24.20   0.000     1.193912    1.404718
+--------------------------------------------------------------------------------------------
 
 . 
 . log close
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-
-> 2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- closed on:  11 Mar 2023, 22:20:54
------------------------------------------------------------------------------------------------------------------------------
+ closed on:  19 Mar 2023, 16:06:56
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
