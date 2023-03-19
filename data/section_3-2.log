@@ -1,16 +1,15 @@
------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data\secti
-> on_3-2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data\section_3-2.log
   log type:  text
- opened on:  19 Mar 2023, 15:16:19
+ opened on:  19 Mar 2023, 15:46:19
 
 . 
-. cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data"
-C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data
+. cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED"
+C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED
 
 . 
-. import delimited "spec_1.csv"
+. import delimited "./data/spec_1.csv"
 (encoding automatically selected: ISO-8859-1)
 (15 vars, 733 obs)
 
@@ -31,7 +30,7 @@ C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\Univer
 
 . la var stringencyindex_weightedaverage "Stringency Index"
 
-. la var c6e_stayathomerequirements "Shelter in Place Indicator"
+. la var c6e_stayathomerequirements "C6: Shelter in Place Indicator"
 
 . la var populationvaccinated "Vaccination Rate"
 
@@ -96,27 +95,26 @@ Time variable: time, 2 to 733
         Delta: 1 unit
 
 . 
-. estpost sum r_m - r_m_abs
+. estpost tabstat csad cssd r_m_abs r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
 
-             |  e(count)   e(sum_w)    e(mean)     e(Var)      e(sd)     e(min)     e(max)     e(sum) 
--------------+----------------------------------------------------------------------------------------
-         r_m |       732        732  -.0205091   1.520264    1.23299  -8.977271   5.395286  -15.01269 
-        csad |       732        732   1.516546   .1293076   .3595937   .7320971    2.92287   1110.111 
-        cssd |       732        732   .1275852    .000829   .0287925   .0592159     .25052   93.39233 
-stringency~e |       732        732   .6982656   .0200903   .1417401          0      .8194   511.1304 
-c6e_stayat~s |       732        732   2.419399   .9223591   .9603953          0          3       1771 
-population~d |       732        732   39.16296   1783.117   42.22697          0      89.35   28667.29 
-c2e_workpl~g |       732        732   2.530055   .5066194    .711772          0          3       1852 
-c3e_cancel~s |       732        732   1.930328   .1141542   .3378671          0          2       1413 
-c4e_restri~s |       732        732   3.831967   .4765143   .6903002          0          4       2805 
-c5e_closep~t |       732        732   1.240437   .7355445   .8576389          0          2        908 
-c7e_restri~e |       732        732   1.721311   .3380951   .5814595          0          2       1260 
-c8e_intern~s |       732        732   2.349727    .490383   .7002735          0          3       1720 
-rolling_de~s |       732        732   60.86924   84748.16   291.1154          0       3964   44556.29 
-       cases |       732        732   90458.27   3.53e+11   593912.8          0    6966046   6.62e+07 
-     r_m_sqr |       732        732   1.518607    17.3855   4.169592   1.29e-06   80.59139   1111.621 
-     r_m_abs |       732        732   .8705231   .7618377   .8728331   .0011353   8.977271   637.2229 
+Summary statistics: sum mean sd min max count
+     for variables: csad cssd r_m_abs r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths
 
+             |    e(sum)    e(mean)      e(sd)     e(min)     e(max)   e(count) 
+-------------+------------------------------------------------------------------
+        csad |  1110.111   1.516546   .3595937   .7320971    2.92287        732 
+        cssd |  93.39233   .1275852   .0287925   .0592159     .25052        732 
+     r_m_abs |  637.2229   .8705231   .8728331   .0011353   8.977271        732 
+     r_m_sqr |  1111.621   1.518607   4.169592   1.29e-06   80.59139        732 
+stringency~e |  511.1304   .6982656   .1417401          0      .8194        732 
+c6e_stayat~s |      1771   2.419399   .9603953          0          3        732 
+population~d |  28667.29   39.16296   42.22697          0      89.35        732 
+rolling_de~s |  44556.29   60.86924   291.1154          0       3964        732 
+
+. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.4fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
+(output written to .\TeX_files\SummaryTable.tex)
+
+. 
 . 
 . quietly reg csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths
 
@@ -363,8 +361,7 @@ c6e_stayathomerequirements |   .0574984   .0194221     2.96   0.003     .0193683
 . 
 . log close
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data\secti
-> on_3-2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data\section_3-2.log
   log type:  text
- closed on:  19 Mar 2023, 15:16:20
------------------------------------------------------------------------------------------------------------------------------
+ closed on:  19 Mar 2023, 15:46:22
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
