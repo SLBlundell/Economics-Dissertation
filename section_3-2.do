@@ -2,9 +2,9 @@ clear all
 capture log close
 log using "section_3-2.log", replace
 
-cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\data"
+cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED"
 
-import delimited "spec_1.csv"
+import delimited "./data/spec_1.csv"
 
 replace stringencyindex_weightedaverage = 0 if missing(stringencyindex_weightedaverage) 
 
@@ -20,11 +20,6 @@ la var rolling_deaths "COVID-19 Deaths 7-Day Rolling Average"
 la var cases "COVID-19 Daily Cases"
 la var r_m_sqr "Market Return Squared"
 la var r_m_abs "Absolute Market Return"
-
-sort date
-gen time=_n
-drop if time==1
-
 
 tempvar PL75
 egen `PL75' = pctile(stringencyindex_weightedaverage), p(75)
@@ -44,16 +39,28 @@ gen D5Upper = 0
 label var D5Upper "Dummy variable = 1 if stringency fall within upper 5%"
 replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
 
+sort date
+gen time=_n
+drop if time==1
 
 tsset time
 
-esttab using "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.4fc)) sd(fmt(%6.4fc)) min(fmt(%6.4fc)) max(fmt(%6.4fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
+// Summary Stats //
 
+estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
+esttab, cells("mean sd min max count")
+estout, cells("mean sd min max count")
+
+esttab using ".\TeX_files\SummaryTable.tex", replace refcat(pop "\emph{Base Model}" stringencyindex_weightedaverage "\vspace{0.1em} emph{Stringency}" populationvaccinated "\vspace{0.1em} emph{Controls}", nolabel) cells("mean(fmt(%8.0fc %8.0fc %8.0fc %8.0fc  2)) sd min max count(fmt(0))") nostar unstack nonumber compress nomtitle nonote noobs label booktabs collabels("Mean" "SD" "Min" "Max" "N")
+
+// t-tests //
 
 quietly reg csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths
-estat bgodfrey, lags(1 2:30)
+estat bgodfrey, lags(1 2:20)
 
 dfuller csad
+
+// Regressions //
 
 newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 

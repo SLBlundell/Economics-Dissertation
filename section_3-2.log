@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- opened on:  19 Mar 2023, 16:06:54
+ opened on:  19 Mar 2023, 16:25:54
 
 . 
 . cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED"
@@ -110,7 +110,42 @@ c6e_stayat~s |      1771   2.419399   .9603953          0          3        732
 population~d |  28667.29   39.16296   42.22697          0      89.35        732 
 rolling_de~s |  44556.29   60.86924   291.1154          0       3964        732 
 
-. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
+. esttab, cells("mean sd min max count")
+
+-----------------------------------------------------------------------------
+                      (1)                                                    
+                                                                             
+                     mean           sd          min          max        count
+-----------------------------------------------------------------------------
+csad             1.516546     .3595937     .7320971      2.92287          732
+cssd             .1275852     .0287925     .0592159       .25052          732
+r_m             -.0205091      1.23299    -8.977271     5.395286          732
+stringency~e     .6982656     .1417401            0        .8194          732
+c6e_stayat~s     2.419399     .9603953            0            3          732
+population~d     39.16296     42.22697            0        89.35          732
+rolling_de~s     60.86924     291.1154            0         3964          732
+-----------------------------------------------------------------------------
+N                     732                                                    
+-----------------------------------------------------------------------------
+
+. estout, cells("mean sd min max count")
+
+-----------------------------------------------------------------------------
+                        .                                                    
+                     mean           sd          min          max        count
+-----------------------------------------------------------------------------
+csad             1.516546     .3595937     .7320971      2.92287          732
+cssd             .1275852     .0287925     .0592159       .25052          732
+r_m             -.0205091      1.23299    -8.977271     5.395286          732
+stringency~e     .6982656     .1417401            0        .8194          732
+c6e_stayat~s     2.419399     .9603953            0            3          732
+population~d     39.16296     42.22697            0        89.35          732
+rolling_de~s     60.86924     291.1154            0         3964          732
+-----------------------------------------------------------------------------
+
+. 
+. esttab using ".\TeX_files\SummaryTable.tex", replace refcat(pop "\emph{Base Model}" stringencyindex_weightedaverage "\vspace{0.1em} emph{Stringency}" populationvaccinated "\vspace{0.1em} emph{Controls}", nolabel) cells("mean(fmt(%8.0fc %8.0fc %8.0fc 
+> %8.0fc  2)) sd min max count(fmt(0))") nostar unstack nonumber compress nomtitle nonote noobs label booktabs collabels("Mean" "SD" "Min" "Max" "N")
 (output written to .\TeX_files\SummaryTable.tex)
 
 . 
@@ -355,5 +390,5 @@ c6e_stayathomerequirements |   .0574984   .0194221     2.96   0.003     .0193683
       name:  <unnamed>
        log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- closed on:  19 Mar 2023, 16:06:56
+ closed on:  19 Mar 2023, 16:25:56
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

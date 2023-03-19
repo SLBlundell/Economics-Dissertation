@@ -1,16 +1,15 @@
-{
-\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-\begin{tabular}{l*{1}{cccccc}}
+\begin{tabular}{l*{1}{ccccc}}
 \toprule
-                    &         Sum&        Mean&          SD&         Min&         Max&           N\\
+                &     Mean&       SD&      Min&      Max&        N\\
 \midrule
-CSAD                &       1,110&       1.517&       0.360&       0.732&       2.923&         732\\
-CSSD                &          93&       0.128&       0.029&       0.059&       0.251&         732\\
-Market Return       &         -15&      -0.021&       1.233&      -8.977&       5.395&         732\\
-Stringency Index    &         511&       0.698&       0.142&       0.000&       0.819&         732\\
-C6: Shelter in Place Indicator&       1,771&       2.419&       0.960&       0.000&       3.000&         732\\
-Vaccination Rate    &      28,667&      39.163&      42.227&       0.000&      89.350&         732\\
-COVID-19 Deaths 7-Day Rolling Average&      44,556&      60.869&     291.115&       0.000&    3964.000&         732\\
+CSAD            &        2&        0&        1&        3&      732\\
+CSSD            &        0&        0&        0&        0&      732\\
+Market Return   &       -0&        1&       -9&        5&      732\\
+\vspace{0.1em} emph{Stringency}&         &         &         &         &         \\
+Stringency Index&        1&        0&        0&        1&      732\\
+C6: Shelter in Place Indicator&     2.42&     0.96&     0.00&     3.00&      732\\
+\vspace{0.1em} emph{Controls}&         &         &         &         &         \\
+Vaccination Rate&    39.16&    42.23&     0.00&    89.35&      732\\
+COVID-19 Deaths 7-Day Rolling Average&    60.87&   291.12&     0.00&  3964.00&      732\\
 \bottomrule
 \end{tabular}
-}
