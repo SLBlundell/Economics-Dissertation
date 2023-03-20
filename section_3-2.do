@@ -8,7 +8,12 @@ import delimited "./data/spec_1.csv"
 
 replace stringencyindex_weightedaverage = 0 if missing(stringencyindex_weightedaverage) 
 
-gen r_m_sqr=r_m^2
+sort date
+drop if stringencyindex_weightedaverage==0
+gen time=_n
+
+egen r_m_mean = mean(r_m)
+gen r_m_sqr= (r_m-r_m_mean)^2
 gen r_m_abs=abs(r_m)
 replace stringencyindex_weightedaverage=stringencyindex_weightedaverage/100
 
@@ -39,10 +44,6 @@ gen D5Upper = 0
 label var D5Upper "S upper 5%"
 replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
 
-sort date
-gen time=_n
-drop if time==1
-
 tsset time
 
 // Summary Stats //
@@ -59,11 +60,12 @@ swilk csad
 
 // Regressions //
 
+eststo: newey csad r_m_abs r_m_sqr, lag(5)
 eststo: newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
-eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
+
 
 esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
 esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Regression Results \label{reg1}") addnotes("First line" "Second line")
@@ -77,5 +79,8 @@ eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rollin
 esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
 esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Robustness Results \label{reg2}") addnotes("First line" "Second line")
 est clear
+
+// Robustness Checks //
+eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
 
 log close
