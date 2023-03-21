@@ -172,7 +172,11 @@ $$
 
 where $\gamma$ denote the model’s coefficients and $\epsilon_t$ the error term at time $t$. This model’s rationale is as follows: according to rational asset-pricing models, as individual assets have varying degrees of sensitivity to overall market return, the relationship between dispersions and market returns are linear and increasing. However, if herding is present within the market CCK suggests that this relationship will no longer hold, as investors’ conformity will result in a non-linear, decreasing or even negative relationship between the two variables. As such, if herding is present we would expect a negative $\gamma_2$, indicating a non-linear relationship. Conversely, in the absence of herding we would expect $\gamma_1$ to be positive and $\gamma_2$ to be insignificant.
 
-$CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. It is notable that, additionally, $SCSAD_t$ provides a better fit for our data compared to $CSSD_t$, which has been observed in prior literature \citep{gleason}. Whilst observers state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM \citep{yao, tan}, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results. Additionally the model has high levels of structural multicollinearity regarding $R_{m,t}$ and $R_{m,t}^2$, which will reduce the efficiency of the model's standard errors. However, given OLS remains BLUE.
+$CSAD$ benefits from it’s ability to capture non-linear herding effects, in combination with the inclusion of $R_{m,t}^2$, that $CSSD$ is unable to capture, which CCK notes results in CH’s approach being overly strict. It is notable that, additionally, $SCSAD_t$ provides a better fit for our data compared to $CSSD_t$, which has been observed in prior literature \citep{gleason}. Whilst observers state concerns regarding $CSAD$’s construction, notably it’s reliance on proxying for unobservable variables within Black’s CAPM \citep{yao, tan}, the two measures share a correlation coefficient of $\rho=0.89$ within our sample and as such are expected to produce similar results. Additionally, as highlighted by \citet{yao}, the model has high levels of structural multicollinearity regarding $R_{m,t}$ and $R_{m,t}^2$, which will reduce the efficiency of the model's standard errors. Therefore it is important we standardize the $R_{m,t}^2$ variable by subtracting it's arithmetic mean, $\bar{R_m}$, removing much of the variable's multicollinearity. Therefore, Model-1 specification is expressed as
+
+\begin{equation}\label{model-1}
+    CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\epsilon_t
+\end{equation}
 
 Following empirical consensus \citep{yao, tan, chiang} we utilise logarithmic daily returns within our calculations of $CSAD_t$ and $R_{m,t}$
 
@@ -195,24 +199,24 @@ where $STRINGENCY_t$ is our specification’s measure, $stringency_{v,t}$ is the
 
 As highlighted by \citet{aknin}, many previous studies utilising ‘lockdown style’ policy regressors fail to control for confounding variables such as local infection and mortality rate. Not including these variables within our regression could result in an understatement within our $STRINGENCY_t$ coefficient given previous studies have suggested the pandemic results in lower herding behaviour within China (Wu et al., 2020). As such, our Model 1 takes the following form:
 
-\begin{equation}\label{model-1}
-CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3STRINGENCY_t+\Gamma{A}+\epsilon_t
+\begin{equation}\label{model-2}
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3STRINGENCY_t+\Gamma{A}+\epsilon_t
 \end{equation}
 
 where $A$ is a matrix of controls with the vector $\Gamma$ of coefficients. Formally, within our controls we include a 7 day moving average of the number of deaths, and the daily single-vaccination rate. A moving average has been chosen for our mortality rate measure in order to smooth measurement errors present in daily data.
 
 This approach has limited power to capture the possible non-linear relationship between containment policies and mental health in herding. It may be that cognitive stress strong enough to effect herding only occurs during demonstrably limiting lockdown policies. We have included multiple alterations to Model 1 that seek to capture this non-linear relationship. Firstly, we have replaced $STRINGENCY_t$ with dummy indicators $S^{j\%}$, taking the value 1 if the Stringency Index value falls within the upper $j$th percentile of the index’s distribution. As such, our Model 2 is expressed as
 
-\begin{equation}\label{model-2}
-CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3R_{m,t}^2*S^{j\%}+\Gamma{A}+\epsilon_t.
+\begin{equation}\label{model-3}
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3(R_{m,t}-\bar{R_m})^2*S^{j\%}+\Gamma{A}+\epsilon_t.
 \end{equation}
 
-We run regressions with an $S^{j\%}$ for the upper 25th, 10th and 5th percentile. This addition is constructed as an interaction term to capture effect severe lockdowns have on the relationship between $R^2_{m,t}$ and $CSAD_t$.
+We run regressions with an $S^{j\%}$ for the upper 25th, 10th and 5th percentile. This addition is constructed as an interaction term to capture effect severe lockdowns have on the relationship between $(R_{m,t}-\bar{R_m})^2$ and $CSAD_t$.
 
 Secondly, following \citet{aknin} we also evaluate the possible cumulative effect of lockdown-style policies by including the variable $D_t$ within Model 3, taking on the number of days the population were under high-stringency policies:
 
-\begin{equation}\label{model-3}
-CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 R_{m,t}^2+\gamma_3STRINGENCY_t+\gamma_4DAYS_t+\Gamma{A}+\epsilon_t
+\begin{equation}\label{model-4}
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3STRINGENCY_t+\gamma_4DAYS_t+\Gamma{A}+\epsilon_t
 \end{equation}
 
 where $DAYS_t$ is the cumulative number of days $STRINGENCY_t>70$, with the indicator resetting once the index drops below 70. We chose 70 as our threshold for high-stringency once again following Aknin.
