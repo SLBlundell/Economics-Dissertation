@@ -1,51 +1,57 @@
 \begin{table}[htbp]\centering
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \caption{Robustness Results \label{reg2}}
-\begin{tabular}{l*{4}{c}}
+\begin{tabular}{l*{6}{c}}
 \toprule
-                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
 \midrule
-Absolute Market Return&     0.00846\sym{***}&     0.00753\sym{***}&     0.00844\sym{***}&     0.00916\sym{***}\\
-                    &   (0.00188)         &   (0.00196)         &   (0.00190)         &   (0.00186)         \\
+Absolute Market Return&     0.00859\sym{***}&     0.00846\sym{***}&     0.00753\sym{***}&     0.00844\sym{***}&     0.00916\sym{***}&     0.00854\sym{***}\\
+                    &   (0.00198)         &   (0.00188)         &   (0.00196)         &   (0.00190)         &   (0.00186)         &   (0.00188)         \\
 \addlinespace
-Market Return Squared&    -0.00035         &    -0.00036         &    -0.00030         &    -0.00039         \\
-                    &   (0.00028)         &   (0.00026)         &   (0.00028)         &   (0.00028)         \\
+Market Return Squared&    -0.00029         &    -0.00035         &    -0.00036         &    -0.00030         &    -0.00039         &    -0.00037         \\
+                    &   (0.00029)         &   (0.00028)         &   (0.00026)         &   (0.00028)         &   (0.00028)         &   (0.00028)         \\
 \addlinespace
-Stringency Index    &     0.04490\sym{***}&                     &                     &                     \\
-                    &   (0.01634)         &                     &                     &                     \\
+Stringency Index    &                     &     0.04490\sym{***}&                     &                     &                     &                     \\
+                    &                     &   (0.01634)         &                     &                     &                     &                     \\
 \addlinespace
-Vaccination Rate    &    -0.00014\sym{***}&    -0.00013\sym{***}&    -0.00014\sym{***}&    -0.00014\sym{***}\\
-                    &   (0.00004)         &   (0.00004)         &   (0.00004)         &   (0.00004)         \\
+Vaccination Rate    &                     &    -0.00014\sym{***}&    -0.00013\sym{***}&    -0.00014\sym{***}&    -0.00014\sym{***}&    -0.00011\sym{**} \\
+                    &                     &   (0.00004)         &   (0.00004)         &   (0.00004)         &   (0.00004)         &   (0.00005)         \\
 \addlinespace
-COVID-19 Deaths 7-Day Rolling Average&    -0.00003\sym{***}&    -0.00004\sym{***}&    -0.00004\sym{***}&    -0.00004\sym{***}\\
-                    &   (0.00001)         &   (0.00001)         &   (0.00001)         &   (0.00001)         \\
+COVID-19 Deaths 7-Day Rolling Average&                     &    -0.00003\sym{***}&    -0.00004\sym{***}&    -0.00004\sym{***}&    -0.00004\sym{***}&    -0.00003\sym{***}\\
+                    &                     &   (0.00001)         &   (0.00001)         &   (0.00001)         &   (0.00001)         &   (0.00001)         \\
 \addlinespace
-S upper 25%=0 $\times$ Market Return Squared&                     &     0.00000         &                     &                     \\
-                    &                     &         (.)         &                     &                     \\
+S upper 25%=0 $\times$ Market Return Squared&                     &                     &     0.00000         &                     &                     &                     \\
+                    &                     &                     &         (.)         &                     &                     &                     \\
 \addlinespace
-S upper 25%=1 $\times$ Market Return Squared&                     &     0.00068\sym{*}  &                     &                     \\
-                    &                     &   (0.00037)         &                     &                     \\
+S upper 25%=1 $\times$ Market Return Squared&                     &                     &     0.00068\sym{*}  &                     &                     &                     \\
+                    &                     &                     &   (0.00037)         &                     &                     &                     \\
 \addlinespace
-S upper 10%=0 $\times$ Market Return Squared&                     &                     &     0.00000         &                     \\
-                    &                     &                     &         (.)         &                     \\
+S upper 10%=0 $\times$ Market Return Squared&                     &                     &                     &     0.00000         &                     &                     \\
+                    &                     &                     &                     &         (.)         &                     &                     \\
 \addlinespace
-S upper 10%=1 $\times$ Market Return Squared&                     &                     &     0.00003         &                     \\
-                    &                     &                     &   (0.00054)         &                     \\
+S upper 10%=1 $\times$ Market Return Squared&                     &                     &                     &     0.00003         &                     &                     \\
+                    &                     &                     &                     &   (0.00054)         &                     &                     \\
 \addlinespace
-S upper 5%=0 $\times$ Market Return Squared&                     &                     &                     &     0.00000         \\
-                    &                     &                     &                     &         (.)         \\
+S upper 5%=0 $\times$ Market Return Squared&                     &                     &                     &                     &     0.00000         &                     \\
+                    &                     &                     &                     &                     &         (.)         &                     \\
 \addlinespace
-S upper 5%=1 $\times$ Market Return Squared&                     &                     &                     &    -0.00688\sym{***}\\
-                    &                     &                     &                     &   (0.00180)         \\
+S upper 5%=1 $\times$ Market Return Squared&                     &                     &                     &                     &    -0.00688\sym{***}&                     \\
+                    &                     &                     &                     &                     &   (0.00180)         &                     \\
 \addlinespace
-Constant            &     0.09581\sym{***}&     0.12839\sym{***}&     0.12810\sym{***}&     0.12824\sym{***}\\
-                    &   (0.01173)         &   (0.00273)         &   (0.00272)         &   (0.00274)         \\
+C6: Shelter in Place Indicator&                     &                     &                     &                     &                     &     0.00571\sym{***}\\
+                    &                     &                     &                     &                     &                     &   (0.00202)         \\
+\addlinespace
+Days                &                     &                     &                     &                     &                     &    -0.00008         \\
+                    &                     &                     &                     &                     &                     &   (0.00005)         \\
+\addlinespace
+Constant            &     0.12102\sym{***}&     0.09581\sym{***}&     0.12839\sym{***}&     0.12810\sym{***}&     0.12824\sym{***}&     0.11527\sym{***}\\
+                    &   (0.00231)         &   (0.01173)         &   (0.00273)         &   (0.00272)         &   (0.00274)         &   (0.00503)         \\
 \midrule
-Observations        &         714         &         714         &         714         &         714         \\
+Observations        &         714         &         714         &         714         &         714         &         714         &         714         \\
 \bottomrule
-\multicolumn{5}{l}{\footnotesize Standard errors in parentheses}\\
-\multicolumn{5}{l}{\footnotesize First line}\\
-\multicolumn{5}{l}{\footnotesize Second line}\\
-\multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\multicolumn{7}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{7}{l}{\footnotesize First line}\\
+\multicolumn{7}{l}{\footnotesize Second line}\\
+\multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
 \end{tabular}
 \end{table}

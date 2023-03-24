@@ -1,0 +1,29 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/SLBlundell/Economics-Dissertation/main/data/spec_1_stata.csv"
+  },
+  "width": 800,
+  "height": 500,
+  "mark": "point",
+  "encoding": {
+    "x": {
+      "field": "r_m",
+      "type": "quantitative",
+      "scale": {"zero": false},
+      "axis": {"title": "Market Return", "titleFontSize": 12}
+    },
+    "y": {
+      "field": "csad",
+      "type": "quantitative",
+      "scale": {"zero": false},
+      "axis": {"title": "Returns Dispersion (CSAD)", "titleFontSize": 12}
+    },
+    "color": {
+      "field": "stringencyindex_weightedaverage",
+      "type": "quantitative",
+      "title": "Stringency Index"
+    }
+  },
+  "config": {}
+}

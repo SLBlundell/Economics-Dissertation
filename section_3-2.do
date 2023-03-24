@@ -46,9 +46,11 @@ replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
 
 tsset time
 
+outsheet csad cssd r_m r_m_abs r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements D25Upper D10Upper D5Upper populationvaccinated rolling_deaths cases using ./data/spec_1_stata.csv , comma 
+
 // Summary Stats //
 
-estpost tabstat csad cssd r_m stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
+estpost tabstat csad cssd r_m r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
 esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
 
 // t-tests //
