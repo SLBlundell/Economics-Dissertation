@@ -44,13 +44,10 @@ gen D5Upper = 0
 label var D5Upper "S upper 5%"
 replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
 
-tempvar C675
-egen `C675' = pctile(c6e_stayathomerequirements), p(75)
 gen days = 0
 label var days "Days"
-replace days = days[_n-1] + 1 if c6e_stayathomerequirements >= `C675'
-replace days = 0 if c6e_stayathomerequirements < `C675'
-
+replace days = days[_n-1] + 1 if c6e_stayathomerequirements == 3
+replace days = 0 if c6e_stayathomerequirements < 3
 
 tsset time
 

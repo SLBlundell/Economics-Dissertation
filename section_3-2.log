@@ -1,15 +1,12 @@
---------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-
-> of-Bristol---AED\section_3-2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- opened on:  24 Mar 2023, 20:21:54
+ opened on:  24 Mar 2023, 20:59:04
 
 . 
-. cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bris
-> tol---AED"
-C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---
-> AED
+. cd "C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED"
+C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED
 
 . 
 . import delimited "./data/spec_1.csv"
@@ -92,21 +89,16 @@ C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\Univer
 (46 real changes made)
 
 . 
-. tempvar C675
-
-. egen `C675' = pctile(c6e_stayathomerequirements), p(75)
-
 . gen days = 0
 
 . label var days "Days"
 
-. replace days = days[_n-1] + 1 if c6e_stayathomerequirements >= `C675'
+. replace days = days[_n-1] + 1 if c6e_stayathomerequirements == 3
 (507 real changes made)
 
-. replace days = 0 if c6e_stayathomerequirements < `C675'
+. replace days = 0 if c6e_stayathomerequirements < 3
 (0 real changes made)
 
-. 
 . 
 . tsset time
 
@@ -114,19 +106,15 @@ Time variable: time, 1 to 714
         Delta: 1 unit
 
 . 
-. outsheet csad cssd r_m r_m_abs r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirement
-> s D25Upper D10Upper D5Upper days populationvaccinated rolling_deaths cases using ./data/spec_1_s
-> tata.csv , comma replace
+. outsheet csad cssd r_m r_m_abs r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements D25Upper D10Upper D5Upper days populationvaccinated rolling_deaths cases using ./data/spec_1_stata.csv , comma replace
 
 . 
 . // Summary Stats //
 . 
-. estpost tabstat csad cssd r_m r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements
->  days populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
+. estpost tabstat csad cssd r_m r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements days populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
 
 Summary statistics: sum mean sd min max count
-     for variables: csad cssd r_m r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequiremen
-> ts days populationvaccinated rolling_deaths
+     for variables: csad cssd r_m r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements days populationvaccinated rolling_deaths
 
              |    e(sum)    e(mean)      e(sd)     e(min)     e(max)   e(count) 
 -------------+------------------------------------------------------------------
@@ -140,16 +128,13 @@ c6e_stayat~s |      1771   2.480392   .8911482          0          3        714
 population~d |  28220.54   39.52457   42.21818          0      89.35        714 
 rolling_de~s |  27945.43   39.13926    99.6529          0   1294.571        714 
 
-. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) s
-> d(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label bo
-> oktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
+. esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
 (output written to .\TeX_files\SummaryTable.tex)
 
 . 
 . // t-tests //
 . 
-. quietly reg csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_de
-> aths
+. quietly reg csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths
 
 . estat bgodfrey, lags(1 2:20)
 
@@ -222,8 +207,7 @@ Maximum lag = 5                                 F(  2,       711) =      52.84
 ------------------------------------------------------------------------------
 (est1 stored)
 
-. eststo: newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_
-> deaths, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  5,       708) =      30.20
@@ -242,8 +226,7 @@ stringencyindex_weightedaverage |   .4226525   .2128959     1.99   0.048     .00
 -------------------------------------------------------------------------------------------------
 (est2 stored)
 
-. eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5
-> )
+. eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  5,       708) =      60.59
@@ -265,8 +248,7 @@ populationvaccinated |   -.001387   .0005366    -2.58   0.010    -.0024406   -.0
 --------------------------------------------------------------------------------------
 (est3 stored)
 
-. eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5
-> )
+. eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  5,       708) =      29.09
@@ -310,8 +292,7 @@ populationvaccinated |  -.0015452   .0005402    -2.86   0.004    -.0026059   -.0
 --------------------------------------------------------------------------------------
 (est5 stored)
 
-. eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements days populationvaccinated rolling_
-> deaths, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements days populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  6,       707) =      25.29
@@ -335,93 +316,57 @@ c6e_stayathomerequirements |   .0490714    .026134     1.88   0.061    -.0022382
 . 
 . esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
 
---------------------------------------------------------------------------------------------------
-> ------------------
-                              (1)             (2)             (3)             (4)             (5) 
->             (6)   
---------------------------------------------------------------------------------------------------
-> ------------------
-Absolute Market Re~n      0.18341***      0.18214***      0.16315***      0.18059***      0.19307*
-> **      0.18281***
-                        (0.02499)       (0.02437)       (0.02413)       (0.02464)       (0.02424) 
->       (0.02444)   
+--------------------------------------------------------------------------------------------------------------------
+                              (1)             (2)             (3)             (4)             (5)             (6)   
+--------------------------------------------------------------------------------------------------------------------
+Absolute Market Re~n      0.18341***      0.18214***      0.16315***      0.18059***      0.19307***      0.18281***
+                        (0.02499)       (0.02437)       (0.02413)       (0.02464)       (0.02424)       (0.02444)   
 
-Market Return Squa~d     -0.00936**      -0.00998**      -0.01077***     -0.00954**      -0.01095*
-> *      -0.01009** 
-                        (0.00462)       (0.00470)       (0.00321)       (0.00462)       (0.00460) 
->       (0.00476)   
+Market Return Squa~d     -0.00936**      -0.00998**      -0.01077***     -0.00954**      -0.01095**      -0.01009** 
+                        (0.00462)       (0.00470)       (0.00321)       (0.00462)       (0.00460)       (0.00476)   
 
-Stringency Index                          0.42265**                                               
->                   
-                                        (0.21290)                                                 
->                   
+Stringency Index                          0.42265**                                                                 
+                                        (0.21290)                                                                   
 
-Vaccination Rate                         -0.00149***     -0.00139***     -0.00144***     -0.00155*
-> **     -0.00129** 
-                                        (0.00054)       (0.00054)       (0.00054)       (0.00054) 
->       (0.00063)   
+Vaccination Rate                         -0.00149***     -0.00139***     -0.00144***     -0.00155***     -0.00129** 
+                                        (0.00054)       (0.00054)       (0.00054)       (0.00054)       (0.00063)   
 
-COVID-19 Deaths 7-~v                     -0.00035***     -0.00044***     -0.00045***     -0.00046*
-> **     -0.00036***
-                                        (0.00013)       (0.00012)       (0.00012)       (0.00012) 
->       (0.00012)   
+COVID-19 Deaths 7-~v                     -0.00035***     -0.00044***     -0.00045***     -0.00046***     -0.00036***
+                                        (0.00013)       (0.00012)       (0.00012)       (0.00012)       (0.00012)   
 
-S upper 25%=0 # Ma~q                                      0.00000                                 
->                   
-                                                              (.)                                 
->                   
+S upper 25%=0 # Ma~q                                      0.00000                                                   
+                                                              (.)                                                   
 
-S upper 25%=1 # Ma~q                                      0.01377***                              
->                   
-                                                        (0.00518)                                 
->                   
+S upper 25%=1 # Ma~q                                      0.01377***                                                
+                                                        (0.00518)                                                   
 
-S upper 10%=0 # Ma~q                                                      0.00000                 
->                   
-                                                                              (.)                 
->                   
+S upper 10%=0 # Ma~q                                                      0.00000                                   
+                                                                              (.)                                   
 
-S upper 10%=1 # Ma~q                                                      0.00186                 
->                   
-                                                                        (0.00776)                 
->                   
+S upper 10%=1 # Ma~q                                                      0.00186                                   
+                                                                        (0.00776)                                   
 
-S upper 5%=0 # Mar~u                                                                      0.00000 
->                   
-                                                                                              (.) 
->                   
+S upper 5%=0 # Mar~u                                                                      0.00000                   
+                                                                                              (.)                   
 
-S upper 5%=1 # Mar~u                                                                     -0.10850*
-> **                
-                                                                                        (0.03308) 
->                   
+S upper 5%=1 # Mar~u                                                                     -0.10850***                
+                                                                                        (0.03308)                   
 
-C6: Shelter in Pla~r                                                                              
->         0.04907*  
-                                                                                                  
->       (0.02613)   
+C6: Shelter in Pla~r                                                                                      0.04907*  
+                                                                                                        (0.02613)   
 
-Days                                                                                              
->        -0.00055   
-                                                                                                  
->       (0.00065)   
+Days                                                                                                     -0.00055   
+                                                                                                        (0.00065)   
 
-Constant                  1.37724***      1.14927***      1.45928***      1.45403***      1.45549*
-> **      1.34074***
-                        (0.02616)       (0.15211)       (0.03365)       (0.03340)       (0.03411) 
->       (0.06409)   
---------------------------------------------------------------------------------------------------
-> ------------------
-Observations                  714             714             714             714             714 
->             714   
---------------------------------------------------------------------------------------------------
-> ------------------
+Constant                  1.37724***      1.14927***      1.45928***      1.45403***      1.45549***      1.34074***
+                        (0.02616)       (0.15211)       (0.03365)       (0.03340)       (0.03411)       (0.06409)   
+--------------------------------------------------------------------------------------------------------------------
+Observations                  714             714             714             714             714             714   
+--------------------------------------------------------------------------------------------------------------------
 Standard errors in parentheses
 * p<0.10, ** p<0.05, *** p<0.01
 
-. esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0
-> .05 *** 0.01) booktabs title("Regression Results \label{reg1}") addnotes("First line" "Second li
-> ne")
+. esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Regression Results \label{reg1}") addnotes("First line" "Second line")
 (output written to ./TeX_files/Regressions_1.tex)
 
 . est clear
@@ -443,8 +388,7 @@ Maximum lag = 5                                 F(  2,       711) =      34.31
 ------------------------------------------------------------------------------
 (est1 stored)
 
-. eststo: newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_
-> deaths, lag(5)
+. eststo: newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  5,       708) =      31.79
@@ -463,8 +407,7 @@ stringencyindex_weightedaverage |   .0448998    .016342     2.75   0.006     .01
 -------------------------------------------------------------------------------------------------
 (est2 stored)
 
-. eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5
-> )
+. eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  5,       708) =      38.53
@@ -486,8 +429,7 @@ populationvaccinated |  -.0001348   .0000415    -3.25   0.001    -.0002163   -.0
 --------------------------------------------------------------------------------------
 (est3 stored)
 
-. eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5
-> )
+. eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  5,       708) =      26.05
@@ -531,8 +473,7 @@ populationvaccinated |  -.0001441   .0000417    -3.45   0.001     -.000226   -.0
 --------------------------------------------------------------------------------------
 (est5 stored)
 
-. eststo: newey cssd r_m_abs r_m_sqr c6e_stayathomerequirements days populationvaccinated rolling_
-> deaths, lag(5)
+. eststo: newey cssd r_m_abs r_m_sqr c6e_stayathomerequirements days populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  6,       707) =      25.78
@@ -555,101 +496,64 @@ c6e_stayathomerequirements |   .0057105   .0020229     2.82   0.005     .0017389
 . 
 . esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
 
---------------------------------------------------------------------------------------------------
-> ------------------
-                              (1)             (2)             (3)             (4)             (5) 
->             (6)   
---------------------------------------------------------------------------------------------------
-> ------------------
-Absolute Market Re~n      0.00859***      0.00846***      0.00753***      0.00844***      0.00916*
-> **      0.00854***
-                        (0.00198)       (0.00188)       (0.00196)       (0.00190)       (0.00186) 
->       (0.00188)   
+--------------------------------------------------------------------------------------------------------------------
+                              (1)             (2)             (3)             (4)             (5)             (6)   
+--------------------------------------------------------------------------------------------------------------------
+Absolute Market Re~n      0.00859***      0.00846***      0.00753***      0.00844***      0.00916***      0.00854***
+                        (0.00198)       (0.00188)       (0.00196)       (0.00190)       (0.00186)       (0.00188)   
 
-Market Return Squa~d     -0.00029        -0.00035        -0.00036        -0.00030        -0.00039 
->        -0.00037   
-                        (0.00029)       (0.00028)       (0.00026)       (0.00028)       (0.00028) 
->       (0.00028)   
+Market Return Squa~d     -0.00029        -0.00035        -0.00036        -0.00030        -0.00039        -0.00037   
+                        (0.00029)       (0.00028)       (0.00026)       (0.00028)       (0.00028)       (0.00028)   
 
-Stringency Index                          0.04490***                                              
->                   
-                                        (0.01634)                                                 
->                   
+Stringency Index                          0.04490***                                                                
+                                        (0.01634)                                                                   
 
-Vaccination Rate                         -0.00014***     -0.00013***     -0.00014***     -0.00014*
-> **     -0.00011** 
-                                        (0.00004)       (0.00004)       (0.00004)       (0.00004) 
->       (0.00005)   
+Vaccination Rate                         -0.00014***     -0.00013***     -0.00014***     -0.00014***     -0.00011** 
+                                        (0.00004)       (0.00004)       (0.00004)       (0.00004)       (0.00005)   
 
-COVID-19 Deaths 7-~v                     -0.00003***     -0.00004***     -0.00004***     -0.00004*
-> **     -0.00003***
-                                        (0.00001)       (0.00001)       (0.00001)       (0.00001) 
->       (0.00001)   
+COVID-19 Deaths 7-~v                     -0.00003***     -0.00004***     -0.00004***     -0.00004***     -0.00003***
+                                        (0.00001)       (0.00001)       (0.00001)       (0.00001)       (0.00001)   
 
-S upper 25%=0 # Ma~q                                      0.00000                                 
->                   
-                                                              (.)                                 
->                   
+S upper 25%=0 # Ma~q                                      0.00000                                                   
+                                                              (.)                                                   
 
-S upper 25%=1 # Ma~q                                      0.00068*                                
->                   
-                                                        (0.00037)                                 
->                   
+S upper 25%=1 # Ma~q                                      0.00068*                                                  
+                                                        (0.00037)                                                   
 
-S upper 10%=0 # Ma~q                                                      0.00000                 
->                   
-                                                                              (.)                 
->                   
+S upper 10%=0 # Ma~q                                                      0.00000                                   
+                                                                              (.)                                   
 
-S upper 10%=1 # Ma~q                                                      0.00003                 
->                   
-                                                                        (0.00054)                 
->                   
+S upper 10%=1 # Ma~q                                                      0.00003                                   
+                                                                        (0.00054)                                   
 
-S upper 5%=0 # Mar~u                                                                      0.00000 
->                   
-                                                                                              (.) 
->                   
+S upper 5%=0 # Mar~u                                                                      0.00000                   
+                                                                                              (.)                   
 
-S upper 5%=1 # Mar~u                                                                     -0.00688*
-> **                
-                                                                                        (0.00180) 
->                   
+S upper 5%=1 # Mar~u                                                                     -0.00688***                
+                                                                                        (0.00180)                   
 
-C6: Shelter in Pla~r                                                                              
->         0.00571***
-                                                                                                  
->       (0.00202)   
+C6: Shelter in Pla~r                                                                                      0.00571***
+                                                                                                        (0.00202)   
 
-Days                                                                                              
->        -0.00008   
-                                                                                                  
->       (0.00005)   
+Days                                                                                                     -0.00008   
+                                                                                                        (0.00005)   
 
-Constant                  0.12102***      0.09581***      0.12839***      0.12810***      0.12824*
-> **      0.11527***
-                        (0.00231)       (0.01173)       (0.00273)       (0.00272)       (0.00274) 
->       (0.00503)   
---------------------------------------------------------------------------------------------------
-> ------------------
-Observations                  714             714             714             714             714 
->             714   
---------------------------------------------------------------------------------------------------
-> ------------------
+Constant                  0.12102***      0.09581***      0.12839***      0.12810***      0.12824***      0.11527***
+                        (0.00231)       (0.01173)       (0.00273)       (0.00272)       (0.00274)       (0.00503)   
+--------------------------------------------------------------------------------------------------------------------
+Observations                  714             714             714             714             714             714   
+--------------------------------------------------------------------------------------------------------------------
 Standard errors in parentheses
 * p<0.10, ** p<0.05, *** p<0.01
 
-. esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0
-> .05 *** 0.01) booktabs title("Robustness Results \label{reg2}") addnotes("First line" "Second li
-> ne")
+. esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Robustness Results \label{reg2}") addnotes("First line" "Second line")
 (output written to ./TeX_files/Regressions_2.tex)
 
 . est clear
 
 . 
 . // Robustness Checks //
-. eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_death
-> s, lag(5)
+. eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements populationvaccinated rolling_deaths, lag(5)
 
 Regression with Newey–West standard errors      Number of obs     =        714
 Maximum lag = 5                                 F(  5,       708) =      30.32
@@ -671,8 +575,7 @@ c6e_stayathomerequirements |   .0375966   .0205828     1.83   0.068    -.0028141
 . 
 . log close
       name:  <unnamed>
-       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-
-> of-Bristol---AED\section_3-2.log
+       log:  C:\Users\whisk\OneDrive\Documents\Bristol\Economics\Year 4\AED\AED GitHub\University-of-Bristol---AED\section_3-2.log
   log type:  text
- closed on:  24 Mar 2023, 20:22:00
---------------------------------------------------------------------------------------------------
+ closed on:  24 Mar 2023, 20:59:09
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
