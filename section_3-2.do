@@ -44,13 +44,21 @@ gen D5Upper = 0
 label var D5Upper "S upper 5%"
 replace D5Upper = 1 if stringencyindex_weightedaverage >= `PL95'
 
+tempvar C675
+egen `C675' = pctile(c6e_stayathomerequirements), p(75)
+gen days = 0
+label var days "Days"
+replace days = days[_n-1] + 1 if c6e_stayathomerequirements >= `C675'
+replace days = 0 if c6e_stayathomerequirements < `C675'
+
+
 tsset time
 
-outsheet csad cssd r_m r_m_abs r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements D25Upper D10Upper D5Upper populationvaccinated rolling_deaths cases using ./data/spec_1_stata.csv , comma 
+outsheet csad cssd r_m r_m_abs r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements D25Upper D10Upper D5Upper days populationvaccinated rolling_deaths cases using ./data/spec_1_stata.csv , comma replace
 
 // Summary Stats //
 
-estpost tabstat csad cssd r_m r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
+estpost tabstat csad cssd r_m r_m_sqr stringencyindex_weightedaverage c6e_stayathomerequirements days populationvaccinated rolling_deaths, c(stat) stat(sum mean sd min max n)
 esttab using ".\TeX_files\SummaryTable.tex", replace cells("sum(fmt(%6.0fc)) mean(fmt(%6.3fc)) sd(fmt(%6.3fc)) min(fmt(%6.3fc)) max(fmt(%6.3fc)) count") nonumber nomtitle nonote noobs label booktabs collabels("Sum" "Mean" "SD" "Min" "Max" "N")
 
 // t-tests //
@@ -67,16 +75,19 @@ eststo: newey csad r_m_abs r_m_sqr stringencyindex_weightedaverage populationvac
 eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 eststo: newey csad r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
+eststo: newey csad r_m_abs r_m_sqr c6e_stayathomerequirements days populationvaccinated rolling_deaths, lag(5)
 
 
 esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
 esttab using "./TeX_files/Regressions_1.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Regression Results \label{reg1}") addnotes("First line" "Second line")
 est clear
 
+eststo: newey cssd r_m_abs r_m_sqr, lag(5)
 eststo: newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
 eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D25Upper populationvaccinated rolling_deaths, lag(5)
 eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D10Upper populationvaccinated rolling_deaths, lag(5)
 eststo: newey cssd r_m_abs r_m_sqr c.r_m_sqr#D5Upper populationvaccinated rolling_deaths, lag(5)
+eststo: newey cssd r_m_abs r_m_sqr c6e_stayathomerequirements days populationvaccinated rolling_deaths, lag(5)
 
 esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
 esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("Robustness Results \label{reg2}") addnotes("First line" "Second line")
