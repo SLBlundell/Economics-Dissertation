@@ -22,6 +22,7 @@
 \titleformat{\subsubsection}[runin]{\normalsize\bfseries}{\thesubsection}{5pt}{}
 
 \usepackage{amssymb, amsfonts, amsmath}
+\usepackage{enumerate}
 \usepackage{bm}
 \usepackage[margin=1.5cm]{geometry} % full-width
     \topskip        =   20pt
@@ -50,13 +51,53 @@
 
 \section{Introduction}
 
-\break
+
 
 \section{Theoretical and Empirical Review}
 
 \subsection{Theory of Herding}
 
+Firstly it is important for comparison’s sake to understand models where investors herd rationally, i.e. they can expect better outcomes by relying on public information over their own, as opposed to herding arising irrationally, for example from cognitive bias or heuristics.
 
+\citet{banerjee} presents the foremost model for rational herding, arguing that in cases such as financial markets where economic agents cannot fully determine what information other agent’s possess entirely through their actions, it is often rational for agents to disregard their private information and instead follow those before them. The paper presents a sequential game, where a population of investors of size $N$ select an asset $i$ to invest into from a non-finite set of assets, in order to maximise their monetary gain from said investment. An unknown asset from this group, $i^*$, will result in the highest monetary payoff $z(i)$ of $z(i^*)=z$ above that of all other assets $i\neq{i^*}$. The private information an investor possesses in this game is a so-called ‘signal’ $i'$, which tells an investor which asset is the true highest-returning asset, $i'=i^*$. Uncertainty is introduced into the game, as investors recieve such a signal with probability $\alpha$, and if they do receive a signal it is correct with probability $\beta$. For example, an investor receives a misleading signal of  $i'\neq{i^*}$ with probability $\alpha(1-\beta)$. Under these rules, investors sequentially choose which asset to invest into, with the first investor chosen at random. The next randomly chosen investor follows, with the knowledge of the actions of the previous investors, but not knowledge of their signal. Subsequently, investors have a choice of whether to follow their own signal, if they have one, or to follow the decisions of others and ‘herd’. This decision, under Bayesian logic, depends on the probability under each choice of choosing the correct asset $i^*$.
+
+It is important to note that the game has three foundational assumptions, with their purpose being to resolve tie-breaking circumstances whilst minimizing the possibility of herding arising from the game’s construction - maintaining the model’s external validity:
+
+\begin{enumerate}
+    \item Assumption A: Whenever a decision maker has no signal and everyone else has chosen $i=0$, they always choose $i=0$.
+    \item Assumption B: When decision makers are indifferent between following their own signal and following someone else’s choice, they always follow their own signal.
+    \item Assumption C: When a decision maker is indifferent between following more than one of the previous decision makers, she chooses to follow the one who has the highest value of $i$.
+\end{enumerate}
+
+Working sequentially through the game, the first decision maker will simply follow their own signal if they have one, and if not will choose $i=0$ as per Assumption A. The second decision maker will follow the investor prior if they do not have a signal. If they do, they are aware that both their own and the other investor’s signal are equally as likely, with probability $\beta$, to be correct. Under Assumption B, they will follow their own signal. The third decision maker has multiple options. If they do not have a signal, they will follow the investor that chooses the highest $i$ (under Assumption C). If one or both prior investors choose $i=0$, the decision maker will follow their own signal if they have one. If both investors choose $i\neq0$, but they choose different $i$, the third investor will still follow their own signal. This is because they know that a single investor that chooses an $i\neq0$ is just as likely to be correct as their own signal is. But what if both prior investors agree upon an $i\neq0$?
+
+We can consider this final third investor’s decision-making process as an illustrative case for the $kth$ investor for the rest of the game. In this case, the two prior investors have chosen the same asset $\bar{i}\neq{i^*}$, with this event denoted by $H$. This can happen if the second investor does not have a signal and the first investor has signal $i'=\bar{i}$, or if both investors happen to have the same signal. Under this circumstance, the third investor can choose to follow these prior investors, or choose their own signal if they have one. They will assess this choice based on the probability of the previous investors’ asset $\bar{i}$ being the highest paying asset $i^*$,
+
+$$
+P[i^*=\bar{i}|H]=\frac{\alpha^3\beta^2(1-\beta)+\alpha^2\beta(1-\beta)(1-\alpha)}{P[H]},
+$$
+
+against the probability that their own signal $i'=i^*$,
+
+$$
+P[i^*=i'|H]=\frac{\alpha^2\beta(1-\beta)(1-\alpha)\beta}{P[H]}.
+$$
+
+Upon inspection it is clear that $P[i^*=\bar{i}|H]>P[i^*=i'|H]$, and investor three should choose to disregard their private information and herd. It is important to note that investor three does not know whether the previous investor has a signal, nor if any of the investors’ signals are correct. This is why the probability of these two factors, $\alpha$ and $\beta$, enter into the decision making process. This logic can be extended: once an asset has been chosen by two investors, the subsequent investors should always follow that decision, unless their signal matches that of an asset that has already been chosen by one other investor - as these two assets have equal likelihood of being correct.
+
+**********INSERT FLOW DIAGRAM**********
+
+The Nash-Equilibrium of this game builds upon this case. Importantly, investors will always herd if any option has been chosen by more than one person, with this asset being determined by early investors either via a few uncertain private signals that happen to match, or through the combination of a single signal and a lack of dissenting signals. Such a process is termed an ‘informational cascade’ as initial investor decisions and the information they hold can lead to rapid formation of herds mimicking these decisions.
+
+In contrast to these rational explanations for herding, \citet{pretcher} utilises psychological models of the brain to create an irrational model of herding based on impulsive mental activity. Pretcher uses the “Triune Brain” model, created by psychologist Paul MacLean, which splits the brain into three basic parts: the brain stem, the limbic system and the neocortex. Within MacLean’s model, the limbic system is viewed as responsible for the more “primitive” responses, such as the fight-or-flight impulse \citep{MacLean}. Specifically within the limbic system, Pretcher claims the basal ganglia is responsible for a deep-rooted impulse to herd - impelling desires to be part of a group and to seek acceptance. These processes, MacLean’s model claims, overwhelm higher brain functions within the neocortex, that are responsible for rational thought, in emotionally charged situations. Mimicking others is viewed as a deeply ingrained process: a survival mechanism to diffuse attacks. Pretcher likens herding in financial markets to observations of a long-hidden stone age tribe copying a researcher’s movements \citep{gajdusek}.
+
+As such, Pretcher suggests this immutable “primitive” process is the primary mover of financial market prices, with herding behaviour as a substitute for rigorous reasoning when knowledge is lacking. Pretcher points to \citet{olsen} as evidence of this theory, who studies 4000 corporate earnings estimates by company analysts. The study finds a link between the difficulty in forecasting EPS, which is interpreted as a source of stress (an emotional charge), the greater the herding within estimates. This stress leads to a negative feedback loop: market participants herd out of stress of failure, which results in incorrect decision-making, which induces additional stress.
+
+MacLean’s Tribiune Brain model that forms the basis of Pretcher theory, however, is severely criticised within modern neurological research. \citet{cesario} argues that the idea of primitive, impulsive brain systems being underneath more complex, newer systems is entirely a misconception - with empirical research evidencing that areas of the brain are not added over time radially, but most often are transformed from existing parts. Likewise, “impulsive” decisions such as herding are not immutable, but rather highly moderated by context \citep{kidd, gawronski}. In other words, it is much more likely that impulsive herding is an interplay between an automatic, irrational process and a rational one.
+
+Whilst Pretcher’s underlying neurological model is highly questionable, modern psychological research still gives credence to the idea of automatic imitation, or impulsive herding. As Cecilia Heyes’ paper on the topic states; “…although automatic imitation is subject to input modulation by attentional processes, and output modulation by inhibitory processes, it is mediated by learned, long-term sensorimotor associations that cannot be altered directly by intentional processes” \citep{heyes}.
+
+\citet{dubey}’s research on the mental health implications of the COVID-19 pandemic provides insight into how Pretcher's model applies to this paper’s empirical design. Dubey details the psycho-social burden of quarantine and isolation enforced by government responses to the pandemic. Specifically, the loss of control stemming from quarantines has been found to generate severe feelings of distress and anxiety, which can be magnified by separation from family \citep{brooks}. These adverse mental health have been reported to be positively associated with quarantine duration \citep{hawryluck}. In contrast to rational based models of herding, we would expect a positive relationship between herding behaviour and ‘lockdown style’ policy stringency. The stricter the lockdown policy, and the longer these policies last, the greater stress financial market participants will be subject to, and the greater the likelihood the negative feedback loop detailed by Pretcher will come into effect.
 
 \subsection{Empirical Literature Review}
 
@@ -146,15 +187,13 @@ Likewise, \citet{chiangzheng} found significant herding within Chinese equity ma
 
 \subsubsection*{[Data]}
 
-Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use daily data following \citet{ch}'s observation that "herd behavior is a very short-lived phenomenon", which has been confirmed by future studies \citep{tan}. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship-bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the presence of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation.
-
-\begin{center}
-    
-\includegraphics[scale=0.4]{graphics/stringency_line.png}
-
-\end{center}
+Financial data used in this paper was obtained from TuShare, a China-based community run API that provides Chinese market data. From this API, we retrieve the daily closing-price of each individual stock comprising the CSI 300 index, the largest market capitalisation equities from the Shanghai Stock Exchange and Shenzhen Stock Exchange. We use daily data following \citet{ch}'s observation that "herd behavior is a very short-lived phenomenon", which has been confirmed by future studies \citep{tan}. We use the CSI 300 composition as of the beginning of our sample, 3 January 2020, in order to mitigate the effect of survivorship-bias occurring from stocks dropping out of the index. Studying the same mix of equities for the entirety of the sample period maintains the power of our analysis. Data is collected from 3 January 2020 to 9 January 2023, which results in 732 days of observations after eliminating non-trading days. This sample period chosen to focus on effects of variation in severity of ‘lockdown style’ containment measures rather than the introduction of such measures. This distinction is important for validity, as results following the introduction of containment policies are at greater risk of confounding variation. This is especially important regarding unobserved variables related to the pandemic itself, given a negative relationship with herding and COVID-19 has been established \cite{wu}.
 
 In addition to market data, we collect data within the same period on the Chinese government response to COVID-19 from the Oxford Covid-19 Government Response Tracker (OxCGRT), as produced by the Blavatnik School of Government at the University of Oxford \citep{OxCGRT}. In particular, we utilise the Stringency Index within our main specification, which seeks to record the severity of ‘lockdown style’ policies that primarily restricts people’s behaviour and movement.
+
+\begin{center}
+    \includegraphics[scale=0.4]{graphics/stringency_line.png}
+\end{center}
 
 \subsubsection*{[Methodology]}
 
@@ -197,7 +236,7 @@ $$
 
 where $STRINGENCY_t$ is our specification’s measure, $stringency_{v,t}$ is the index score for policies applying to vaccinated individuals at $t$, $stringency_{nv,t}$ the index score for non-vaccinated based policies, and $W_{v,t}$ and $W_{nv,t}$ are the percentage of the population vaccinated and not-vaccinated respectively. We chose this to more accurately reflect how containment policies apply to China’s population at a given time. We have re-scaled the stringency index from 0 to 1, compared to it's original form of 0 to 100, in order to aid interpretation of our estimated coefficients.
 
-As highlighted by \citet{aknin}, many previous studies utilising ‘lockdown style’ policy regressors fail to control for confounding variables such as local infection and mortality rate. Not including these variables within our regression could result in an understatement within our $STRINGENCY_t$ coefficient given previous studies have suggested the pandemic results in lower herding behaviour within China (Wu et al., 2020). As such, our Model 1 takes the following form:
+As highlighted by \citet{aknin}, many previous studies utilising ‘lockdown style’ policy regressors fail to control for confounding variables such as local infection and mortality rate. Not including these variables within our regression could result in an understatement within our $STRINGENCY_t$ coefficient given previous studies have suggested the pandemic results in lower herding behaviour within China \citep{wu}. As such, our Model 1 takes the following form:
 
 \begin{equation}\label{model-2}
 CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3STRINGENCY_t+\Gamma{A}+\epsilon_t
