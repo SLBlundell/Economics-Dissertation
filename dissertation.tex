@@ -252,13 +252,13 @@ CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3(R_{m,
 
 We run regressions with an $S^{j\%}$ for the upper 25th, 10th and 5th percentile. This addition is constructed as an interaction term to capture effect severe lockdowns have on the relationship between $(R_{m,t}-\bar{R_m})^2$ and $CSAD_t$.
 
-Secondly, following \citet{aknin} we also evaluate the possible cumulative effect of lockdown-style policies by including the variable $D_t$ within Model 3, taking on the number of days the population were under high-stringency policies:
+Secondly, following \citet{aknin} we also evaluate the possible cumulative effect of lockdown-style policies by including the variable $DAYS_t$ within Model 3, taking on the number of days the population were under high-stringency policies:
 
 \begin{equation}\label{model-4}
-CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3STRINGENCY_t+\gamma_4DAYS_t+\Gamma{A}+\epsilon_t
+CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3LOCKDOWN_t+\gamma_4DAYS_t+\Gamma{A}+\epsilon_t
 \end{equation}
 
-where $DAYS_t$ is the cumulative number of days $STRINGENCY_t>70$, with the indicator resetting once the index drops below 70. We chose 70 as our threshold for high-stringency once again following Aknin.
+where $LOCKDOWN_t$ is the OxCGRT's indicator of stay-at-home policies, (which takes the value 0 if there is no lockdown policy, 1 if it is recommend not leaving house, 2 if it is a requirement to not leave the house, with exceptions for daily exercise, grocery shopping, and 'essential' trips and 3 if it is a requirement to not leave house, with minimal exceptions) and $DAYS_t$ is the cumulative number of days that $LOCKDOWN_t = 3$, which resets every time the indicator drops below 3. By using this approach, it becomes possible to monitor the impact of quarantine length-related stress \citep{brooks} on herding behavior.
 
 \subsubsection*{[Extension 2 - Time Series Analysis]}
 
