@@ -1,4 +1,5 @@
 \begin{table}[htbp]\small \centering
+\begin{threeparttable}
 \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
 \caption{Regression Results \label{reg1}}
 \begin{tabular}{l*{6}{c}}
@@ -40,9 +41,10 @@ Constant            &     1.37724\sym{***}&     1.14927\sym{***}&     1.45928\sy
 \midrule
 Adjusted $R^2$        &         0.1277         &         0.1935         &         0.1892         &         0.1833         &         0.1966         &         0.1916         \\
 \bottomrule
-\multicolumn{7}{l}{\footnotesize Standard errors in parentheses}\\
-\multicolumn{7}{l}{\footnotesize First line}\\
-\multicolumn{7}{l}{\footnotesize Second line}\\
-\multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
 \end{tabular}
+\begin{tablenotes}
+\footnotesize Standard errors in parentheses and based on Newey and West (1987)'s heteroscedasticity and autocorrelation consistent standard errors. This table reports the estimated coefficients and adjusted $R^2$ for the models defined in Section 3.1. Panel A contains results for the base model defined in Equation \ref{model-1}: $CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\epsilon_t$. Panel B contains results for the lockdown-policy extension model defined in Equation \ref{model-2}: $CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2(R_{m,t}-\bar{R_m})^2+\gamma_3STRINGENCY_t+\Gamma{A}+\epsilon_t$. Panels C D \& E contain results for the model defined in equation \ref{model-3}: $CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3(R_{m,t}-\bar{R_m})^2*S_t^{j\%}+\Gamma{A}+\epsilon_t$ for the top 25th, 10th and 5th percentile respectively. Panel F contains the results for the model defined in Equation \ref{model-4}: $CSAD_t=\gamma_0+\gamma_1 |R_{m,t}|+\gamma_2 (R_{m,t}-\bar{R_m})^2+\gamma_3LOCKDOWN_t+\gamma_4DAYS_t+\Gamma{A}+\epsilon_t$.\\
+\sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)\\
+\end{tablenotes}
+\end{threeparttable}
 \end{table}
