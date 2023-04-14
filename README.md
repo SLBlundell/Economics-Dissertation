@@ -22,7 +22,7 @@ Finally, I have recently developed a *slight* obsession with basketball, and the
 
 ## 📖 How to Read
 
-- **Dissertation** - Import `dissertation.tex` into a TeX editor, such as [Overleaf](www.overleaf.com), either by downloading and importing the file or copy-pasting the contents into the editor.
+- **Dissertation** - Download and open `dissertation.pdf`, or, import `dissertation.tex` into a TeX editor, such as [Overleaf](www.overleaf.com), either by downloading and importing the file or copy-pasting the contents into the editor.
 
 - **Data Analysis** - Results of the  regressions and statistical tests can be found within section_3-2.log. If you would like to reproduce the analysis, you can do so by running section_3-2.do using [Stata](https://www.stata.com/) (download the files within [data](https://github.com/SLBlundell/Economics-Dissertation/tree/main/data) along with the do-file).
 
