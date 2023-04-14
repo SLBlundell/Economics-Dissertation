@@ -92,6 +92,13 @@ est clear
 // Robustness Checks //
 
 pca c6e_stayathomerequirements c2e_workplaceclosing c3e_cancelpublicevents c4e_restrictionsongatherings c5e_closepublictransport c7e_restrictionsoninternalmoveme c8e_internationaltravelcontrols, components(3)
+predict pc1 pc2 pc3, score
+
+eststo: newey csad r_m_abs r_m_sqr pc1 pc2 pc3 populationvaccinated rolling_deaths, lag(5)
+
+esttab, b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01)
+esttab using "./TeX_files/Regressions_2.tex", replace b(5) se(5) nomtitle label star(* 0.10 ** 0.05 *** 0.01) booktabs title("PC Regression \label{reg2}") addnotes("First line" "Second line")
+est clear
 
 eststo: newey cssd r_m_abs r_m_sqr, lag(5)
 eststo: newey cssd r_m_abs r_m_sqr stringencyindex_weightedaverage populationvaccinated rolling_deaths, lag(5)
