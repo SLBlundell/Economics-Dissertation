@@ -9,7 +9,7 @@ Specifically, this dissertation seeks to determine whether the additional cognit
 
 
 ## 🚀 About Me
-I am a final year Economics undergrad at the University of Bristol. I'm incredibly interested in data analysis, specifically how this can relate to microeconomic policy and behavioural economics.
+I am a final year Economics undergrad at the University of Bristol. I'm incredibly interested in data analysis, specifically how this can relate to financial markets and economic policy.
 
 I have worked as a Research Intern for a Chinese foreign policy research project with the university, having written reports to inform policy decisions in Parliament. I also participated in a Spring Internship within HSBC's Global Banking and Markets divisions in London.
 
