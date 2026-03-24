@@ -7,20 +7,7 @@ My research focuses on 'herding' within financial markets - the theory that inve
 
 Specifically, this dissertation seeks to determine whether the additional cognitive stress investors were subject to stemming from 'Lockdown Style' policies within China induced additional herding within equity markets.
 
-
-## 🚀 About Me
-I am a final year Economics undergrad at the University of Bristol. I'm incredibly interested in data analysis, specifically how this can relate to financial markets and economic policy.
-
-I have worked as a Research Intern for a Chinese foreign policy research project with the university, having written reports to inform policy decisions in Parliament. I also participated in a Spring Internship within HSBC's Global Banking and Markets divisions in London.
-
-I joined a year exchange programme at the Chinese University of Hong Kong during the third year of my degree, taking classes in everything from Chinese financial history and Mandarin to programming and law.
-
-I am proficient in Python, specialising in data analysis and machine learning. I also have experience working in Stata, in addition to HTML, CSS and JavaScript. [You can view a portfolio of Economic data analysis conducted during my degree here](https://slblundell.github.io/).
-
-Finally, I have recently developed a *slight* obsession with basketball, and the intersection of the sport with data. I produced a large project as part of my degree on the role of salary in the NBA, [which can be found here](https://slblundell.github.io/project.html).
-
-
-## 📖 How to Read
+## How to Read
 
 - **Dissertation** - Download and open `dissertation.pdf`, or, import `dissertation.tex` into a TeX editor, such as [Overleaf](www.overleaf.com), either by downloading and importing the file or copy-pasting the contents into the editor.
 
