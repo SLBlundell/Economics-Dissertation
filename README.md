@@ -15,7 +15,7 @@ Specifically, this dissertation seeks to determine whether the additional cognit
 
 - **Data** - you can access the data sources used within the dissertation, alongside the calculations for the regression variables via `AED_codebook.ipynb`.
 ## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://slblundell.github.io/project.html)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://slblundell.github.io/sam-blundell)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sam-blundell-7608b7196/)
 
 
